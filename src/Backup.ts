@@ -1,5 +1,5 @@
 import { BackupOptions } from "./interfaces";
-import { promises as fs } from "fs";
+import fs from "fs";
 import path from "path";
 import { cmd, exists, sleep } from "./misc";
 
@@ -16,7 +16,7 @@ export class Backup {
   async start(): Promise<void> {
     // mkdir local
     try {
-      await fs.mkdir(this.options.local, { recursive: true });
+      await fs.promises.mkdir(this.options.local, { recursive: true });
       process.chdir(this.options.local);
       if (!(await exists(path.resolve(this.options.local, ".git")))) {
         console.log(".git do not exist");
