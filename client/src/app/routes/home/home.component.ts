@@ -10,10 +10,7 @@ export class HomeComponent implements OnInit {
   source = 'kiki';
   target = 'tutu';
 
-  last = new Date();
-  next = new Date();
-
-  constructor(private backupService: BackupService) {}
+  constructor(public backupService: BackupService) {}
 
   ngOnInit(): void {}
 

@@ -6,9 +6,11 @@ export function ws(backup: Backup): Router {
   const app = express.Router();
 
   app.get("/backup", (req, res) => {
-    console.log("backup start");
-    backup.save();
-    res.send("ok");
+    (async () => {
+      console.log("backup start");
+      await backup.save();
+      res.json(backup);
+    })();
   });
 
   app.get("/info", (req, res) => {

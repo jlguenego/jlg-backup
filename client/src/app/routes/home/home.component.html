@@ -10,10 +10,12 @@
   </ul>
   <ul>
     <li>
-      <b>Last backup: </b><span>{{ last | date: "short" }}</span>
+      <b>Last backup: </b
+      ><span>{{ backupService.last$ | async | date: "medium" }}</span>
     </li>
     <li>
-      <b>Next backup: </b><span>{{ next | date: "short" }}</span>
+      <b>Next backup: </b
+      ><span>{{ backupService.next$ | async | date: "medium" }}</span>
     </li>
   </ul>
   <button (click)="backup()">Backup now!</button>
