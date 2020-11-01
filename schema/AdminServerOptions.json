@@ -6,23 +6,27 @@
       "type": "object",
       "properties": {
         "$schema": {
-          "type": "string"
+          "type": "string",
+          "description": "The JSON Schema used to check the syntax of this config file"
         },
         "local": {
-          "type": "string"
+          "type": "string",
+          "description": "Local directory. Will be converted if necessary to a local git repository"
         },
         "remote": {
-          "type": "string"
+          "type": "string",
+          "description": "Remote directory. Must be a remote git repository"
         },
         "intervalInSecond": {
           "type": "number",
           "description": "Number of second between two backups"
         },
         "port": {
-          "type": "number"
+          "type": "number",
+          "description": "Port that the admin server listens"
         }
       },
-      "required": ["intervalInSecond", "local", "port", "remote"],
+      "required": [],
       "additionalProperties": false
     }
   }
