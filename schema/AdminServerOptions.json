@@ -9,6 +9,11 @@
           "type": "string",
           "description": "The JSON Schema used to check the syntax of this config file"
         },
+        "sh": {
+          "type": "string",
+          "description": "The path of the sh.exe on your installation",
+          "default": "C:\\Program Files\\Git\\bin\\sh.exe"
+        },
         "local": {
           "type": "string",
           "description": "Local directory. Will be converted if necessary to a local git repository"

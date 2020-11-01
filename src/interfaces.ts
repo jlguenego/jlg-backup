@@ -7,4 +7,5 @@ export interface BackupOptions {
   local: string;
   remote: string;
   intervalInSecond: number;
+  sh?: string;
 }

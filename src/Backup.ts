@@ -9,6 +9,7 @@ export class Backup {
   options: BackupOptions = {
     local: path.resolve("D:\\_backup_local"),
     remote: path.resolve("D:\\_backup_remote"),
+    sh: path.resolve("C:\\Program Files\\Git\\bin\\sh.exe"),
     intervalInSecond: 3600,
   };
   constructor(opts: Partial<BackupOptions> = {}) {
@@ -50,7 +51,7 @@ export class Backup {
       console.log("error: ", error);
     }
     try {
-      await cmd('"C:\\Program Files\\Git\\bin\\sh.exe" -c "git push" ');
+      await cmd(`"${this.options.sh}" -c "git push" `);
     } catch (error) {
       console.log("error: ", error);
     }
