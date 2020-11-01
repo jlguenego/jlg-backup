@@ -1,13 +1,22 @@
-import express from "express";
+import express, { Router } from "express";
 import { Backup } from "./Backup";
+import { BackupOptions } from "./interfaces";
 
-const app = express.Router();
+export function ws(opts: BackupOptions): Router {
+  const app = express.Router();
 
-app.get("/backup", (req, res) => {
-  console.log("backup start");
-  const backup = new Backup();
-  backup.save();
-  res.send("ok");
-});
+  const backup = new Backup(opts);
 
-export const ws = app;
+  app.get("/backup", (req, res) => {
+    console.log("backup start");
+    backup.save();
+    res.send("ok");
+  });
+
+  app.get("/info", (req, res) => {
+    console.log("info start");
+    res.json(backup);
+  });
+
+  return app;
+}

@@ -8,7 +8,7 @@ import os from "os";
 import { ws } from "./ws";
 
 import { Backup } from "./Backup";
-import { AdminServerOptions } from "./interfaces";
+import { AdminServerOptions, BackupOptions } from "./interfaces";
 
 const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
 
@@ -35,7 +35,7 @@ export class AdminServer {
       const app = express();
       const www = "./static";
 
-      app.use("/ws", ws);
+      app.use("/ws", ws(this.options));
 
       app.use(express.static(www));
       app.use(serveIndex(www, { icons: true }));
