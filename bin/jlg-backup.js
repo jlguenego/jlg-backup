@@ -12,14 +12,21 @@ const svc = new Service({
 // Listen for the "install" event, which indicates the
 // process is available as a service.
 svc.on("install", function () {
-  console.log("about to start");
+  console.log("Windows service installed. Starting...");
   svc.start();
+});
+
+svc.on("start", function () {
+  console.log("Windows service started.");
+});
+
+svc.on("stop", function () {
+  console.log("Windows service stopped.");
 });
 
 // Listen for the "uninstall" event so we know when it's done.
 svc.on("uninstall", function () {
-  console.log("Uninstall complete.");
-  console.log("The service exists: ", svc.exists);
+  console.log("Windows service uninstalled.");
 });
 
 const myArgv = yargs
@@ -29,7 +36,7 @@ const myArgv = yargs
     aliases: ["i"],
     desc: "Install the service",
     handler: (...args) => {
-      console.log("install args: ", args);
+      console.log("Installing windows service...");
       svc.install();
     },
   })
