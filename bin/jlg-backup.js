@@ -29,6 +29,14 @@ svc.on("uninstall", function () {
   console.log("Windows service uninstalled.");
 });
 
+svc.on("error", function (err) {
+  console.log("Error occurred: ", err);
+});
+
+svc.on("alreadyinstalled", function () {
+  console.log("Windows service already installed.");
+});
+
 const myArgv = yargs
   .scriptName("jlg-backup")
   .command({
@@ -45,7 +53,7 @@ const myArgv = yargs
     aliases: ["u"],
     desc: "Uninstall the service",
     handler: (...args) => {
-      console.log("uninstall args: ", args);
+      console.log("Uninstalling windows service...");
       svc.uninstall();
     },
   })
