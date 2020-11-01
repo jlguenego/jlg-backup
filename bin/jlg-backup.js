@@ -1,23 +1,12 @@
 const { Service } = require("node-windows");
 const path = require("path");
-
 const yargs = require("yargs");
-
-const myArgv = yargs
-  .scriptName("jlg-backup")
-  .usage("$0 <cmd> [args]")
-  .command("install", "Install the service")
-  .command("uninstall", "Uninstall the service")
-  .help()
-  .strict().argv;
-
-console.log("myArgv: ", myArgv);
 
 // Create a new service object
 const svc = new Service({
   name: "JLG Node application as Windows Service",
   description: "JLG Description of Node application as Windows Service",
-  script: path.resolve(__dirname, "server.js"),
+  script: path.resolve(__dirname, "../dist/index.js"),
 });
 
 // Listen for the "install" event, which indicates the
@@ -33,10 +22,27 @@ svc.on("uninstall", function () {
   console.log("The service exists: ", svc.exists);
 });
 
-if (myArgv._[0] === "install") {
-  svc.install();
-}
-
-if (myArgv._[0] === "uninstall") {
-  svc.uninstall();
-}
+const myArgv = yargs
+  .scriptName("jlg-backup")
+  .command({
+    command: "install",
+    aliases: ["i"],
+    desc: "Install the service",
+    handler: (...args) => {
+      console.log("install args: ", args);
+      svc.install();
+    },
+  })
+  .command({
+    command: "uninstall",
+    aliases: ["u"],
+    desc: "Uninstall the service",
+    handler: (...args) => {
+      console.log("uninstall args: ", args);
+      svc.uninstall();
+    },
+  })
+  // provide a minimum demand and a minimum demand message
+  .demandCommand(1, "You need at least one command before moving on")
+  .help()
+  .parse();

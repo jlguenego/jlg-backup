@@ -2,11 +2,16 @@
   "name": "jlg-backup",
   "version": "1.0.0",
   "description": "",
-  "main": "server.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon"
+    "start": "nodemon",
+    "build": "tsc -p src",
+    "jlg-backup": "node ./bin/jlg-backup.js"
   },
-  "author": "",
+  "bin": {
+    "jlg-backup": "./bin/jlg-backup.js"
+  },
+  "author": "Jean-Louis GUENEGO <jlguenego@gmail.com> (http://jlg-consulting.com/)",
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.17.8",

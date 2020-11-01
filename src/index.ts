@@ -1,4 +1,4 @@
-import { AdminServer } from "./src/AdminServer";
+import { AdminServer } from "./AdminServer";
 
 async function main() {
   try {
