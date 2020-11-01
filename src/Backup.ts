@@ -24,17 +24,23 @@ export class Backup {
         await cmd("git init");
       }
       while (true) {
-        console.log("backup");
+        await this.save();
         await sleep(this.options.intervalInSecond);
-        console.log(await cmd("git add -A ."));
-        try {
-          console.log(await cmd("git commit -m backup"));
-        } catch (error) {
-          console.log("error: ", error);
-        }
       }
     } catch (error) {
       console.log("start error: ", error);
     }
+  }
+
+  async save(): Promise<void> {
+    console.log("start save");
+    process.chdir(this.options.local);
+    await cmd("git add -A .");
+    try {
+      await cmd("git commit -m backup");
+    } catch (error) {
+      console.log("error: ", error);
+    }
+    console.log("save finished at " + new Date());
   }
 }

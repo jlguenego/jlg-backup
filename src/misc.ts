@@ -12,11 +12,16 @@ export async function exists(str: string): Promise<boolean> {
 }
 
 export function cmd(str: string): Promise<string> {
+  console.log("starting cmd: ", str);
   return new Promise((resolve, reject) => {
     exec(str, (error, stdout, stderr) => {
       if (error) {
+        console.log("stdout: ", stdout);
+        console.log("stderr: ", stderr);
         reject(stderr + stdout);
+        return;
       }
+      console.log("stdout: ", stdout);
       resolve(stdout);
     });
   });
