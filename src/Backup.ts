@@ -7,6 +7,7 @@ export class Backup {
   options: BackupOptions = {
     local: path.resolve("D:\\_backup_local"),
     remote: path.resolve("D:\\_backup_remote"),
+    intervalInSecond: 10000,
   };
   constructor(opts: Partial<BackupOptions>) {
     this.options = { ...this.options, ...opts };
@@ -24,7 +25,7 @@ export class Backup {
       }
       while (true) {
         console.log("backup");
-        await sleep(10000);
+        await sleep(this.options.intervalInSecond);
         console.log(await cmd("git add -A ."));
         try {
           console.log(await cmd("git commit -m backup"));

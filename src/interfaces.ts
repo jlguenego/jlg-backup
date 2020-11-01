@@ -5,4 +5,5 @@ export interface AdminServerOptions extends BackupOptions {
 export interface BackupOptions {
   local: string;
   remote: string;
+  intervalInSecond: number;
 }
