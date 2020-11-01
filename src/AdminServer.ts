@@ -31,9 +31,10 @@ export class AdminServer {
   start(): Promise<void> {
     return new Promise((resolve, reject) => {
       const app = express();
+      const www = "./static";
 
-      app.use(express.static("."));
-      app.use(serveIndex(".", { icons: true }));
+      app.use(express.static(www));
+      app.use(serveIndex(www, { icons: true }));
 
       const server = http.createServer(app);
       server.listen(this.options.port, () => {
