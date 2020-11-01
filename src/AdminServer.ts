@@ -1,4 +1,5 @@
 import express from "express";
+import serveIndex from "serve-index";
 import fs from "fs";
 import path from "path";
 import http from "http";
@@ -31,7 +32,8 @@ export class AdminServer {
     return new Promise((resolve, reject) => {
       const app = express();
 
-      app.get("/", (req, res) => res.send("Hello World!"));
+      app.use(express.static("."));
+      app.use(serveIndex(".", { icons: true }));
 
       const server = http.createServer(app);
       server.listen(this.options.port, () => {
