@@ -50,7 +50,7 @@ export class Backup {
       console.log("error: ", error);
     }
     try {
-      await cmdSpawn("cmd", ["/S", "/C", "git", "push"]);
+      await cmd('"C:\\Program Files\\Git\\bin\\sh.exe" -c "git push" ');
     } catch (error) {
       console.log("error: ", error);
     }
