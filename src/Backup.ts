@@ -1,7 +1,7 @@
 import { BackupOptions } from "./interfaces";
 import fs from "fs";
 import path from "path";
-import { cmd, exists, sleep } from "./misc";
+import { cmd, cmdSpawn, exists, sleep } from "./misc";
 
 export class Backup {
   last = new Date();
@@ -46,6 +46,11 @@ export class Backup {
     await cmd("git add -A .");
     try {
       await cmd("git commit -m backup");
+    } catch (error) {
+      console.log("error: ", error);
+    }
+    try {
+      await cmdSpawn("cmd", ["/S", "/C", "git", "push"]);
     } catch (error) {
       console.log("error: ", error);
     }
