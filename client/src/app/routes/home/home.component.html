@@ -2,19 +2,19 @@
   <h1>Administration</h1>
   <ul>
     <li>
-      <b>Source:</b><span>{{ source }}</span>
+      <b>Source: </b><span>{{ source }}</span>
     </li>
     <li>
-      <b>Target:</b><span>{{ target }}</span>
+      <b>Target: </b><span>{{ target }}</span>
     </li>
   </ul>
   <ul>
     <li>
-      <b>Last backup:</b><span>{{ last | date: "long" }}</span>
+      <b>Last backup: </b><span>{{ last | date: "short" }}</span>
     </li>
     <li>
-      <b>Next backup:</b><span>{{ next | date: "long" }}</span>
+      <b>Next backup: </b><span>{{ next | date: "short" }}</span>
     </li>
   </ul>
-  <button>Backup now!</button>
+  <button (click)="backup()">Backup now!</button>
 </main>

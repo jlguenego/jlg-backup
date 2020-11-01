@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BackupService } from 'src/app/services/backup.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,12 @@ export class HomeComponent implements OnInit {
   last = new Date();
   next = new Date();
 
-  constructor() {}
+  constructor(private backupService: BackupService) {}
 
   ngOnInit(): void {}
+
+  backup(): void {
+    console.log('backup');
+    this.backupService.backup();
+  }
 }
