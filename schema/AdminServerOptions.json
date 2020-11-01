@@ -5,6 +5,9 @@
     "AdminServerOptions": {
       "type": "object",
       "properties": {
+        "$schema": {
+          "type": "string"
+        },
         "local": {
           "type": "string"
         },
@@ -12,7 +15,8 @@
           "type": "string"
         },
         "intervalInSecond": {
-          "type": "number"
+          "type": "number",
+          "description": "Number of second between two backups"
         },
         "port": {
           "type": "number"

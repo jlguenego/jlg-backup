@@ -1,10 +1,11 @@
 import express from "express";
-import { backup } from "./Backup";
+import { Backup } from "./Backup";
 
 const app = express.Router();
 
 app.get("/backup", (req, res) => {
   console.log("backup start");
-  backup();
+  const backup = new Backup();
+  backup.save();
   res.send("ok");
 });

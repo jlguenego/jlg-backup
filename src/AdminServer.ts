@@ -13,7 +13,7 @@ const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
 export class AdminServer {
   options: AdminServerOptions = {
     port: 3000,
-    intervalInSecond: 10000,
+    intervalInSecond: 3600,
     local: path.resolve("D:\\_backup_local"),
     remote: path.resolve("D:\\_backup_remote"),
   };

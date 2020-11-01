@@ -7,9 +7,9 @@ export class Backup {
   options: BackupOptions = {
     local: path.resolve("D:\\_backup_local"),
     remote: path.resolve("D:\\_backup_remote"),
-    intervalInSecond: 10000,
+    intervalInSecond: 3600,
   };
-  constructor(opts: Partial<BackupOptions>) {
+  constructor(opts: Partial<BackupOptions> = {}) {
     this.options = { ...this.options, ...opts };
     console.log("this.options: ", this.options);
   }
@@ -25,7 +25,7 @@ export class Backup {
       }
       while (true) {
         await this.save();
-        await sleep(this.options.intervalInSecond);
+        await sleep(this.options.intervalInSecond * 1000);
       }
     } catch (error) {
       console.log("start error: ", error);
