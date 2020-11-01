@@ -22,7 +22,8 @@ export class AdminServer {
   constructor(opts: Partial<AdminServerOptions> = {}) {
     try {
       const str = fs.readFileSync(USER_CONFIG_FILE, { encoding: "utf8" });
-      const json = JSON.parse(str);
+      const json = JSON.parse(str) as AdminServerOptions;
+      delete json.$schema;
       this.options = { ...this.options, ...json };
     } catch (e) {}
 
@@ -31,11 +32,14 @@ export class AdminServer {
   }
 
   start(): Promise<void> {
+    const backup = new Backup(this.options);
+    backup.start();
+
     return new Promise((resolve, reject) => {
       const app = express();
       const www = "./static";
 
-      app.use("/ws", ws(this.options));
+      app.use("/ws", ws(backup));
 
       app.use(express.static(www));
       app.use(serveIndex(www, { icons: true }));
@@ -45,8 +49,6 @@ export class AdminServer {
         console.log(
           `Example app listening at http://localhost:${this.options.port}`
         );
-        const backup = new Backup(this.options);
-        backup.start();
         resolve();
       });
       server.on("error", (e) => {

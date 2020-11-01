@@ -4,6 +4,8 @@ import path from "path";
 import { cmd, exists, sleep } from "./misc";
 
 export class Backup {
+  last = new Date();
+  next = new Date();
   options: BackupOptions = {
     local: path.resolve("D:\\_backup_local"),
     remote: path.resolve("D:\\_backup_remote"),
@@ -25,7 +27,13 @@ export class Backup {
       }
       while (true) {
         await this.save();
-        await sleep(this.options.intervalInSecond * 1000);
+        const duration = this.options.intervalInSecond * 1000;
+        console.log("duration: ", duration);
+        this.last = new Date();
+        console.log("this.last: ", this.last);
+        this.next = new Date(this.last.getTime() + duration);
+        console.log("this.next: ", this.next);
+        await sleep(duration);
       }
     } catch (error) {
       console.log("start error: ", error);
@@ -42,5 +50,6 @@ export class Backup {
       console.log("error: ", error);
     }
     console.log("save finished at " + new Date());
+    this.last = new Date();
   }
 }
