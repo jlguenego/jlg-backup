@@ -5,6 +5,8 @@ import path from "path";
 import http from "http";
 import os from "os";
 
+import { ws } from "./ws";
+
 import { Backup } from "./Backup";
 import { AdminServerOptions } from "./interfaces";
 
@@ -32,6 +34,8 @@ export class AdminServer {
     return new Promise((resolve, reject) => {
       const app = express();
       const www = "./static";
+
+      app.use("/ws", ws);
 
       app.use(express.static(www));
       app.use(serveIndex(www, { icons: true }));

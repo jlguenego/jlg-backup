@@ -9,3 +9,5 @@ app.get("/backup", (req, res) => {
   backup.save();
   res.send("ok");
 });
+
+export const ws = app;
