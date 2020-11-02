@@ -5,6 +5,8 @@ import { BackupOptions } from "./interfaces";
 export function ws(backup: Backup): Router {
   const app = express.Router();
 
+  app.use(express.json());
+
   app.get("/backup", (req, res) => {
     (async () => {
       try {
@@ -20,6 +22,13 @@ export function ws(backup: Backup): Router {
   app.get("/info", (req, res) => {
     console.log("info start");
     res.json(backup);
+  });
+
+  app.put("/backup-options", (req, res) => {
+    console.log("put backup options");
+    const bo = req.body as BackupOptions;
+    backup.update(bo);
+    res.status(204).end();
   });
 
   return app;

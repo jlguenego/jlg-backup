@@ -1,9 +1,6 @@
-export interface AdminServerOptions extends BackupOptions {
-  $schema?: string;
-  port: number;
-}
-
 export interface BackupOptions {
+  $schema?: string;
+  port?: number;
   local?: string;
   remote?: string;
   intervalInSecond?: number;

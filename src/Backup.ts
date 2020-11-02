@@ -22,7 +22,7 @@ export class Backup {
     try {
       while (true) {
         await this.save();
-        const duration = this.options.intervalInSecond * 1000;
+        const duration = (this.options.intervalInSecond ?? 3600) * 1000;
         console.log("duration: ", duration);
         this.last = new Date();
         console.log("this.last: ", this.last);
@@ -70,5 +70,9 @@ export class Backup {
     }
     console.log("save finished at " + new Date());
     this.last = new Date();
+  }
+
+  update(bo: BackupOptions) {
+    this.options = { ...this.options, ...bo };
   }
 }

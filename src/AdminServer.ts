@@ -8,19 +8,19 @@ import os from "os";
 import { ws } from "./ws";
 
 import { Backup } from "./Backup";
-import { AdminServerOptions, BackupOptions } from "./interfaces";
+import { BackupOptions } from "./interfaces";
 
 const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
 
 export class AdminServer {
-  options: AdminServerOptions = {
+  options: BackupOptions = {
     port: 3000,
     intervalInSecond: 3600,
   };
-  constructor(opts: Partial<AdminServerOptions> = {}) {
+  constructor(opts: BackupOptions = {}) {
     try {
       const str = fs.readFileSync(USER_CONFIG_FILE, { encoding: "utf8" });
-      const json = JSON.parse(str) as AdminServerOptions;
+      const json = JSON.parse(str) as BackupOptions;
       delete json.$schema;
       this.options = { ...this.options, ...json };
     } catch (e) {}
