@@ -1,21 +1,23 @@
 <main>
   <h1>Administration</h1>
+  <form [formGroup]="f" (ngSubmit)="submit()">
+    <label>
+      <div>Local repos</div>
+      <input type="text" formControlName="local" />
+    </label>
+    <label>
+      <div>Remote repos</div>
+      <input type="text" formControlName="remote" />
+    </label>
+    <button class="primary" type="submit" [disabled]="f.invalid">Update</button>
+  </form>
+
   <ul>
     <li>
-      <b>Source: </b><span>{{ source }}</span>
+      <b>Last backup: </b><span>{{ last | date: "medium" }}</span>
     </li>
     <li>
-      <b>Target: </b><span>{{ target }}</span>
-    </li>
-  </ul>
-  <ul>
-    <li>
-      <b>Last backup: </b
-      ><span>{{ backupService.last$ | async | date: "medium" }}</span>
-    </li>
-    <li>
-      <b>Next backup: </b
-      ><span>{{ backupService.next$ | async | date: "medium" }}</span>
+      <b>Next backup: </b><span>{{ next | date: "medium" }}</span>
     </li>
   </ul>
   <button (click)="backup()">Backup now!</button>

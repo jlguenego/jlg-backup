@@ -16,8 +16,6 @@ export class AdminServer {
   options: AdminServerOptions = {
     port: 3000,
     intervalInSecond: 3600,
-    local: path.resolve("D:\\_backup_local"),
-    remote: path.resolve("D:\\_backup_remote"),
   };
   constructor(opts: Partial<AdminServerOptions> = {}) {
     try {

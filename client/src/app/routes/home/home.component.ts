@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BackupService } from 'src/app/services/backup.service';
+import { BackupOptions } from '../../../../../src/interfaces';
 
 @Component({
   selector: 'app-home',
@@ -7,15 +9,37 @@ import { BackupService } from 'src/app/services/backup.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  source = 'kiki';
-  target = 'tutu';
+  f = new FormGroup({
+    local: new FormControl('', Validators.required),
+    remote: new FormControl('', Validators.required),
+  });
 
-  constructor(public backupService: BackupService) {}
+  next: Date;
+  last: Date;
+
+  constructor(public backupService: BackupService) {
+    this.backupService.backupInfo$.subscribe((backupInfo) => {
+      if (!backupInfo) {
+        return;
+      }
+      this.next = new Date(backupInfo.next);
+      this.last = new Date(backupInfo.last);
+      this.f.setValue({
+        local: backupInfo.options.local ?? '',
+        remote: backupInfo.options.remote ?? '',
+      });
+    });
+  }
 
   ngOnInit(): void {}
 
   backup(): void {
     console.log('backup');
     this.backupService.backup();
+  }
+
+  submit(): void {
+    console.log('submit');
+    this.backupService.update(this.f.value as BackupOptions);
   }
 }

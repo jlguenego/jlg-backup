@@ -7,9 +7,13 @@ export function ws(backup: Backup): Router {
 
   app.get("/backup", (req, res) => {
     (async () => {
-      console.log("backup start");
-      await backup.save();
-      res.json(backup);
+      try {
+        console.log("backup start");
+        await backup.save();
+        res.json(backup);
+      } catch (e) {
+        res.status(400).json({ error: e });
+      }
     })();
   });
 

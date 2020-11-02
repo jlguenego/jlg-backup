@@ -7,8 +7,6 @@ export class Backup {
   last = new Date();
   next = new Date();
   options: BackupOptions = {
-    local: path.resolve("D:\\_backup_local"),
-    remote: path.resolve("D:\\_backup_remote"),
     sh: path.resolve("C:\\Program Files\\Git\\bin\\sh.exe"),
     intervalInSecond: 3600,
   };
@@ -18,14 +16,10 @@ export class Backup {
   }
 
   async start(): Promise<void> {
-    // mkdir local
+    if (!this.options.local) {
+      return;
+    }
     try {
-      await fs.promises.mkdir(this.options.local, { recursive: true });
-      process.chdir(this.options.local);
-      if (!(await exists(path.resolve(this.options.local, ".git")))) {
-        console.log(".git do not exist");
-        await cmd("git init");
-      }
       while (true) {
         await this.save();
         const duration = this.options.intervalInSecond * 1000;
@@ -41,8 +35,27 @@ export class Backup {
     }
   }
 
+  async init() {
+    if (!this.options.local) {
+      throw new Error(
+        "no local repos specified in the backup config. Check the %USER%/jlg-backup.json"
+      );
+    }
+    await fs.promises.mkdir(this.options.local, { recursive: true });
+    process.chdir(this.options.local);
+    if (!(await exists(path.resolve(this.options.local, ".git")))) {
+      console.log(".git do not exist");
+      await cmd("git init");
+    }
+  }
+
   async save(): Promise<void> {
     console.log("start save");
+    if (!this.options.local) {
+      throw new Error(
+        "no local repos specified in the backup config. Check the %USER%/jlg-backup.json"
+      );
+    }
     process.chdir(this.options.local);
     await cmd("git add -A .");
     try {

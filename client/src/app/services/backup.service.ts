@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BackupInfo } from '../interfaces/backup-info';
 import { BehaviorSubject } from 'rxjs';
+import { BackupOptions } from '../../../../src/interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BackupService {
-  next$ = new BehaviorSubject<Date>(undefined);
-  last$ = new BehaviorSubject<Date>(undefined);
+  backupInfo$ = new BehaviorSubject<BackupInfo>(undefined);
 
   constructor(private http: HttpClient) {
     this.refresh();
@@ -18,8 +18,7 @@ export class BackupService {
     this.http.get<BackupInfo>('/ws/info').subscribe({
       next: (backupInfo) => {
         console.log('backupInfo: ', backupInfo);
-        this.next$.next(new Date(backupInfo.next));
-        this.last$.next(new Date(backupInfo.last));
+        this.backupInfo$.next(backupInfo);
       },
       error: (error) => {
         console.error('error: ', error);
@@ -32,8 +31,20 @@ export class BackupService {
     this.http.get<BackupInfo>('/ws/backup').subscribe({
       next: (backupInfo) => {
         console.log('backupInfo: ', backupInfo);
-        this.next$.next(new Date(backupInfo.next));
-        this.last$.next(new Date(backupInfo.last));
+        this.backupInfo$.next(backupInfo);
+      },
+      error: (error) => {
+        console.error('error: ', error);
+      },
+      complete: () => console.log('complete'),
+    });
+  }
+
+  update(backupOptions: BackupOptions): void {
+    this.http.put<BackupInfo>('/ws/backup-options', backupOptions).subscribe({
+      next: (backupInfo) => {
+        console.log('backupInfo: ', backupInfo);
+        this.backupInfo$.next(backupInfo);
       },
       error: (error) => {
         console.error('error: ', error);

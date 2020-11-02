@@ -2,6 +2,12 @@
 
 @import "../node_modules/normalize.css/normalize.css";
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: sans-serif;
 }
@@ -39,4 +45,21 @@ button {
       }
     }
   }
+}
+
+form {
+  width: 100%;
+  max-width: 25em;
+  display: flex;
+  flex-flow: column;
+}
+
+input {
+  width: 100%;
+  padding: 0.5em 1em;
+  border: 0.1em solid #eee;
+}
+
+label {
+  padding-bottom: 0.5em;
 }
