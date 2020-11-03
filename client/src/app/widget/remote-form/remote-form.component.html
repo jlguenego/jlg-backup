@@ -1,0 +1,8 @@
+<form [formGroup]="f" (ngSubmit)="submit()">
+  <label>
+    <div>Remote repos</div>
+    <input type="text" formControlName="remote" />
+  </label>
+  <button class="primary" type="submit" [disabled]="f.invalid">Update</button>
+</form>
+<div><b>Status: </b>{{ status }}</div>

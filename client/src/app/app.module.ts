@@ -8,6 +8,7 @@ import { HomeComponent } from './routes/home/home.component';
 import { LegalComponent } from './routes/legal/legal.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { WidgetModule } from './widget/widget.module';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, LegalComponent],
@@ -17,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     LayoutModule,
     HttpClientModule,
     ReactiveFormsModule,
+    WidgetModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
