@@ -15,13 +15,13 @@ export function cmd(str: string): Promise<string> {
   console.log("starting cmd: ", str);
   return new Promise((resolve, reject) => {
     exec(str, (error, stdout, stderr) => {
+      console.log("error: ", error);
+      console.log("stdout: ", stdout);
+      console.log("stderr: ", stderr);
       if (error) {
-        console.log("stdout: ", stdout);
-        console.log("stderr: ", stderr);
         reject(stderr + stdout);
         return;
       }
-      console.log("stdout: ", stdout);
       resolve(stdout);
     });
   });

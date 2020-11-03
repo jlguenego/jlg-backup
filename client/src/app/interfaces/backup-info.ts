@@ -4,4 +4,5 @@ export interface BackupInfo {
   last: string;
   next: string;
   options: BackupOptions;
+  remoteStatus: string;
 }

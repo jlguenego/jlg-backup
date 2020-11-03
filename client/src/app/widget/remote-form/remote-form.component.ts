@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { BackupInfo } from 'src/app/interfaces/backup-info';
+import { BackupService } from 'src/app/services/backup.service';
+import { BackupOptions } from '../../../../../src/interfaces';
 
 @Component({
   selector: 'app-remote-form',
@@ -11,13 +14,18 @@ export class RemoteFormComponent implements OnInit {
     remote: new FormControl(''),
   });
 
-  status = 'not recognized';
+  backupInfo: BackupInfo = {};
 
-  constructor() {}
+  constructor(private backupService: BackupService) {
+    this.backupService.backupInfo$.subscribe((backupInfo) => {
+      this.backupInfo = backupInfo;
+    });
+  }
 
   ngOnInit(): void {}
 
   submit(): void {
     console.log('submit');
+    this.backupService.update(this.f.value as BackupOptions);
   }
 }

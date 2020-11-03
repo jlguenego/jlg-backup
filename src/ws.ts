@@ -21,6 +21,7 @@ export function ws(backup: Backup): Router {
 
   app.get("/info", (req, res) => {
     console.log("info start");
+    backup.check();
     res.json(backup);
   });
 
@@ -30,7 +31,8 @@ export function ws(backup: Backup): Router {
         console.log("put backup options");
         const bo = req.body as BackupOptions;
         await backup.update(bo);
-        res.status(204).end();
+        backup.check();
+        res.json(backup);
       } catch (e) {
         res.status(400).json({ error: e });
       }

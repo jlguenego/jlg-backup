@@ -8,7 +8,12 @@ import { BackupOptions } from '../../../../src/interfaces';
   providedIn: 'root',
 })
 export class BackupService {
-  backupInfo$ = new BehaviorSubject<BackupInfo>(undefined);
+  backupInfo$ = new BehaviorSubject<BackupInfo>({
+    last: '1970-01-01',
+    next: '1970-01-01',
+    options: {},
+    remoteStatus: 'init...',
+  });
 
   constructor(private http: HttpClient) {
     this.refresh();
