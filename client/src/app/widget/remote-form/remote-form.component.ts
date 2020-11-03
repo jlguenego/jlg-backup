@@ -14,7 +14,7 @@ export class RemoteFormComponent implements OnInit {
     remote: new FormControl(''),
   });
 
-  backupInfo: BackupInfo = {};
+  backupInfo: BackupInfo;
 
   constructor(private backupService: BackupService) {
     this.backupService.backupInfo$.subscribe((backupInfo) => {
