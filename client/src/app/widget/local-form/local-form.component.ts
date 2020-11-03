@@ -5,13 +5,13 @@ import { BackupService } from 'src/app/services/backup.service';
 import { BackupOptions } from '../../../../../src/interfaces';
 
 @Component({
-  selector: 'app-remote-form',
-  templateUrl: './remote-form.component.html',
-  styleUrls: ['./remote-form.component.scss'],
+  selector: 'app-local-form',
+  templateUrl: './local-form.component.html',
+  styleUrls: ['./local-form.component.scss'],
 })
-export class RemoteFormComponent implements OnInit {
+export class LocalFormComponent implements OnInit {
   f = new FormGroup({
-    remote: new FormControl(''),
+    local: new FormControl(''),
   });
 
   backupInfo: BackupInfo;
@@ -19,8 +19,7 @@ export class RemoteFormComponent implements OnInit {
   constructor(private backupService: BackupService) {
     this.backupService.backupInfo$.subscribe((backupInfo) => {
       this.backupInfo = backupInfo;
-      console.log('backupInfo: ', backupInfo);
-      this.f.setValue({ remote: backupInfo.options.remote ?? '' });
+      this.f.setValue({ local: backupInfo.options.local ?? '' });
     });
   }
 

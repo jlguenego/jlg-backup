@@ -1,17 +1,9 @@
 <main>
   <h1>Administration</h1>
   <app-remote-form></app-remote-form>
-  <form [formGroup]="f" (ngSubmit)="submit()">
-    <label>
-      <div>Remote repos</div>
-      <input type="text" formControlName="remote" />
-    </label>
-    <label>
-      <div>Local repos</div>
-      <input type="text" formControlName="local" />
-    </label>
-    <button class="primary" type="submit" [disabled]="f.invalid">Update</button>
-  </form>
+  <br />
+  <br />
+  <app-local-form></app-local-form>
 
   <ul>
     <li>

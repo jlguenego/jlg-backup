@@ -13,6 +13,7 @@ export class BackupService {
     next: '1970-01-01',
     options: {},
     remoteStatus: 'init...',
+    localStatus: 'init...',
   });
 
   constructor(private http: HttpClient) {
