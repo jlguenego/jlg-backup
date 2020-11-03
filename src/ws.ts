@@ -25,10 +25,16 @@ export function ws(backup: Backup): Router {
   });
 
   app.put("/backup-options", (req, res) => {
-    console.log("put backup options");
-    const bo = req.body as BackupOptions;
-    backup.update(bo);
-    res.status(204).end();
+    (async () => {
+      try {
+        console.log("put backup options");
+        const bo = req.body as BackupOptions;
+        await backup.update(bo);
+        res.status(204).end();
+      } catch (e) {
+        res.status(400).json({ error: e });
+      }
+    })();
   });
 
   return app;

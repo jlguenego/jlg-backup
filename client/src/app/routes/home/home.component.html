@@ -2,12 +2,12 @@
   <h1>Administration</h1>
   <form [formGroup]="f" (ngSubmit)="submit()">
     <label>
-      <div>Local repos</div>
-      <input type="text" formControlName="local" />
-    </label>
-    <label>
       <div>Remote repos</div>
       <input type="text" formControlName="remote" />
+    </label>
+    <label>
+      <div>Local repos</div>
+      <input type="text" formControlName="local" />
     </label>
     <button class="primary" type="submit" [disabled]="f.invalid">Update</button>
   </form>

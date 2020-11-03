@@ -1,16 +1,12 @@
 import express from "express";
 import serveIndex from "serve-index";
 import fs from "fs";
-import path from "path";
 import http from "http";
-import os from "os";
 
 import { ws } from "./ws";
 
-import { Backup } from "./Backup";
+import { Backup, USER_CONFIG_FILE } from "./Backup";
 import { BackupOptions } from "./interfaces";
-
-const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
 
 export class AdminServer {
   options: BackupOptions = {

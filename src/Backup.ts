@@ -1,7 +1,11 @@
-import { BackupOptions } from "./interfaces";
 import fs from "fs";
 import path from "path";
-import { cmd, cmdSpawn, exists, sleep } from "./misc";
+import os from "os";
+
+import { cmd, exists, sleep } from "./misc";
+import { BackupOptions } from "./interfaces";
+
+export const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
 
 export class Backup {
   last = new Date();
@@ -19,6 +23,7 @@ export class Backup {
     if (!this.options.local) {
       return;
     }
+    this.init();
     try {
       while (true) {
         await this.save();
@@ -37,9 +42,7 @@ export class Backup {
 
   async init() {
     if (!this.options.local) {
-      throw new Error(
-        "no local repos specified in the backup config. Check the %USER%/jlg-backup.json"
-      );
+      return;
     }
     await fs.promises.mkdir(this.options.local, { recursive: true });
     process.chdir(this.options.local);
@@ -52,9 +55,7 @@ export class Backup {
   async save(): Promise<void> {
     console.log("start save");
     if (!this.options.local) {
-      throw new Error(
-        "no local repos specified in the backup config. Check the %USER%/jlg-backup.json"
-      );
+      return;
     }
     process.chdir(this.options.local);
     await cmd("git add -A .");
@@ -72,7 +73,17 @@ export class Backup {
     this.last = new Date();
   }
 
-  update(bo: BackupOptions) {
-    this.options = { ...this.options, ...bo };
+  async update(bo: BackupOptions) {
+    const options = { ...this.options, ...bo };
+    try {
+      await fs.promises.writeFile(
+        USER_CONFIG_FILE,
+        JSON.stringify(options, undefined, 2),
+        { encoding: "utf8" }
+      );
+      this.options = options;
+      this.init();
+      this.save();
+    } catch (e) {}
   }
 }

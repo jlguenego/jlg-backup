@@ -10,8 +10,8 @@ import { BackupOptions } from '../../../../../src/interfaces';
 })
 export class HomeComponent implements OnInit {
   f = new FormGroup({
-    local: new FormControl('', Validators.required),
     remote: new FormControl('', Validators.required),
+    local: new FormControl('', Validators.required),
   });
 
   next: Date;
@@ -25,8 +25,8 @@ export class HomeComponent implements OnInit {
       this.next = new Date(backupInfo.next);
       this.last = new Date(backupInfo.last);
       this.f.setValue({
-        local: backupInfo.options.local ?? '',
         remote: backupInfo.options.remote ?? '',
+        local: backupInfo.options.local ?? '',
       });
     });
   }
