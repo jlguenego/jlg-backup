@@ -5,7 +5,7 @@ async function main() {
     const adminServer = new AdminServer();
     await adminServer.start();
   } catch (error) {
-    console.log("error: ", error);
+    console.error("error: ", error);
   }
 }
 

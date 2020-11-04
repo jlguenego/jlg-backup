@@ -22,7 +22,6 @@ export class AdminServer {
     } catch (e) {}
 
     this.options = { ...this.options, ...opts };
-    console.log("this.options: ", this.options);
   }
 
   start(): Promise<void> {

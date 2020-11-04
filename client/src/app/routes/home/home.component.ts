@@ -34,12 +34,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {}
 
   backup(): void {
-    console.log('backup');
     this.backupService.backup();
   }
 
   submit(): void {
-    console.log('submit');
     this.backupService.update(this.f.value as BackupOptions);
   }
 }

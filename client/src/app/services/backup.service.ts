@@ -23,39 +23,33 @@ export class BackupService {
   refresh(): void {
     this.http.get<BackupInfo>('/ws/info').subscribe({
       next: (backupInfo) => {
-        console.log('backupInfo: ', backupInfo);
         this.backupInfo$.next(backupInfo);
       },
       error: (error) => {
         console.error('error: ', error);
       },
-      complete: () => console.log('complete'),
     });
   }
 
   backup(): void {
     this.http.get<BackupInfo>('/ws/backup').subscribe({
       next: (backupInfo) => {
-        console.log('backupInfo: ', backupInfo);
         this.backupInfo$.next(backupInfo);
       },
       error: (error) => {
         console.error('error: ', error);
       },
-      complete: () => console.log('complete'),
     });
   }
 
   update(backupOptions: BackupOptions): void {
     this.http.put<BackupInfo>('/ws/backup-options', backupOptions).subscribe({
       next: (backupInfo) => {
-        console.log('backupInfo: ', backupInfo);
         this.backupInfo$.next(backupInfo);
       },
       error: (error) => {
         console.error('error: ', error);
       },
-      complete: () => console.log('complete'),
     });
   }
 }

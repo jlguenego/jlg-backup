@@ -6,9 +6,6 @@ import { cmd, dirToURI } from "./misc";
 
 export class Check {
   async remoteDir(remote: string | undefined) {
-    console.log("checkRemoteDir");
-    console.log("remote: ", remote);
-
     // check remote dir.
     if (!remote) {
       return REMOTE.NOT_SET;
@@ -25,7 +22,6 @@ export class Check {
     try {
       process.chdir(path.resolve(remote));
       const answer = await cmd("git rev-parse --is-bare-repository");
-      console.log("answer: ", answer);
       if (answer.trim() === "false") {
         throw "it is not";
       }
@@ -39,8 +35,7 @@ export class Check {
     local: string | undefined,
     remote: string | undefined
   ): Promise<LOCAL> {
-    console.log("check LocalDir");
-    // check remote dir.
+    // check local dir.
     if (!local) {
       return LOCAL.NOT_SET;
     }
@@ -57,7 +52,6 @@ export class Check {
     try {
       process.chdir(path.resolve(local));
       const answer = await cmd("git rev-parse --is-inside-work-tree");
-      console.log("answer: ", answer);
       if (answer.trim() !== "true") {
         throw "it is not";
       }
@@ -67,12 +61,9 @@ export class Check {
 
     // check if remote
     try {
-      // git remote add origin file:///D:/_bbb
       const answer = await cmd("git remote get-url origin");
       const trimAnswer = answer.trim();
-      console.log("trimAnswer: ", trimAnswer);
       const uri = dirToURI(remote ?? "");
-      console.log("uri: ", uri);
       if (trimAnswer.trim() !== uri) {
         throw "it is not";
       }

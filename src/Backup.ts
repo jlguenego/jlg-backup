@@ -28,7 +28,6 @@ export class Backup {
 
   constructor(opts: Partial<BackupOptions> = {}) {
     this.options = { ...this.options, ...opts };
-    console.log("this.options: ", this.options);
     this.check();
   }
 
@@ -43,7 +42,7 @@ export class Backup {
         await this.wait();
       }
     } catch (error) {
-      console.log("start error: ", error);
+      console.error("error while starting: ", error);
     }
   }
 
@@ -78,23 +77,24 @@ export class Backup {
   }
 
   async save(): Promise<void> {
-    console.log("start save");
+    console.log("backup start");
     if (!this.options.local) {
       return;
     }
     process.chdir(this.options.local);
-    await cmd("git add -A .");
+    try {
+      await cmd("git add -A .");
+    } catch (error) {}
+
     try {
       await cmd("git commit -m backup");
-    } catch (error) {
-      console.log("error: ", error);
-    }
+    } catch (error) {}
     try {
       await cmd(`"${this.options.sh}" -c "git push" `);
     } catch (error) {
-      console.log("error: ", error);
+      console.error("error: ", error);
     }
-    console.log("save finished at " + new Date());
+    console.log("backup finished at " + new Date());
     this.last = new Date();
   }
 

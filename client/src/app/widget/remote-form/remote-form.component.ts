@@ -19,7 +19,6 @@ export class RemoteFormComponent implements OnInit {
   constructor(private backupService: BackupService) {
     this.backupService.backupInfo$.subscribe((backupInfo) => {
       this.backupInfo = backupInfo;
-      console.log('backupInfo: ', backupInfo);
       this.f.setValue({ remote: backupInfo.options.remote ?? '' });
     });
   }
@@ -27,7 +26,6 @@ export class RemoteFormComponent implements OnInit {
   ngOnInit(): void {}
 
   submit(): void {
-    console.log('submit');
     this.backupService.update(this.f.value as BackupOptions);
   }
 }
