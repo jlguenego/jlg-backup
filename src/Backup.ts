@@ -4,13 +4,18 @@ import os from "os";
 
 import { cmd, exists, sleep } from "./misc";
 import { BackupOptions } from "./interfaces";
+import {
+  LOCAL_GIT_CLONE_REPOS,
+  LOCAL_NOT_EXISTING_DIR,
+  LOCAL_NOT_GIT_REPOS,
+  LOCAL_NOT_SET,
+  REMOTE_GIT_BARE_REPOS,
+  REMOTE_NOT_EXISTING_DIR,
+  REMOTE_NOT_GIT_BARE_REPOS,
+  REMOTE_NOT_SET,
+} from "./status";
 
 export const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
-
-const REMOTE_NOT_SET = "remote not set";
-const REMOTE_NOT_EXISTING_DIR = "remote directory not existing";
-const REMOTE_NOT_GIT_BARE_REPOS = "remote directory is not bare git repository";
-const REMOTE_GIT_BARE_REPOS = "success! (remote directory - bare repos).";
 
 export class Backup {
   last = new Date();
@@ -98,6 +103,7 @@ export class Backup {
 
   async check() {
     await this.checkRemoteDir();
+    await this.checkLocalDir();
   }
 
   async checkRemoteDir() {
@@ -118,6 +124,7 @@ export class Backup {
       return;
     }
 
+    // check if bare repos
     try {
       process.chdir(path.resolve(this.options.remote));
       const answer = await cmd("git rev-parse --is-bare-repository");
@@ -130,5 +137,52 @@ export class Backup {
       this.remoteStatus = REMOTE_NOT_GIT_BARE_REPOS;
       return;
     }
+  }
+
+  async checkLocalDir() {
+    console.log("checkLocalDir");
+    // check remote dir.
+    if (!this.options.local) {
+      this.remoteStatus = LOCAL_NOT_SET;
+      return;
+    }
+
+    // check existing directory
+    try {
+      await fs.promises.access(path.resolve(this.options.local));
+      // The check succeeded
+    } catch (error) {
+      this.remoteStatus = LOCAL_NOT_EXISTING_DIR;
+      return;
+    }
+
+    // check if repos
+    try {
+      process.chdir(path.resolve(this.options.local));
+      const answer = await cmd("git rev-parse --is-inside-work-tree");
+      console.log("answer: ", answer);
+      if (answer.trim() !== "true") {
+        throw "it is not";
+      }
+    } catch (error) {
+      this.remoteStatus = LOCAL_NOT_GIT_REPOS;
+      return;
+    }
+
+    // check if remote
+    try {
+      // git remote add origin file:///D:/_bbb
+      process.chdir(path.resolve(this.options.local));
+      const answer = await cmd("git remote");
+      console.log("answer: ", answer);
+      if (answer.trim() !== "true") {
+        throw "it is not";
+      }
+    } catch (error) {
+      this.remoteStatus = LOCAL_NOT_GIT_REPOS;
+      return;
+    }
+
+    this.remoteStatus = LOCAL_GIT_CLONE_REPOS;
   }
 }
