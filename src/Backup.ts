@@ -2,18 +2,9 @@ import fs from "fs";
 import path from "path";
 import os from "os";
 
-import { cmd, exists, sleep } from "./misc";
+import { cmd, dirToURI, exists, sleep } from "./misc";
 import { BackupOptions } from "./interfaces";
-import {
-  LOCAL_GIT_CLONE_REPOS,
-  LOCAL_NOT_EXISTING_DIR,
-  LOCAL_NOT_GIT_REPOS,
-  LOCAL_NOT_SET,
-  REMOTE_GIT_BARE_REPOS,
-  REMOTE_NOT_EXISTING_DIR,
-  REMOTE_NOT_GIT_BARE_REPOS,
-  REMOTE_NOT_SET,
-} from "./status";
+import { LOCAL, REMOTE } from "./enum";
 
 export const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
 
@@ -25,7 +16,8 @@ export class Backup {
     intervalInSecond: 3600,
   };
 
-  remoteStatus = REMOTE_NOT_SET;
+  remoteStatus = REMOTE.NOT_SET;
+  localStatus = LOCAL.NOT_SET;
 
   constructor(opts: Partial<BackupOptions> = {}) {
     this.options = { ...this.options, ...opts };
@@ -112,7 +104,7 @@ export class Backup {
 
     // check remote dir.
     if (!this.options.remote) {
-      this.remoteStatus = REMOTE_NOT_SET;
+      this.remoteStatus = REMOTE.NOT_SET;
       return;
     }
     // check existing directory
@@ -120,7 +112,7 @@ export class Backup {
       await fs.promises.access(path.resolve(this.options.remote));
       // The check succeeded
     } catch (error) {
-      this.remoteStatus = REMOTE_NOT_EXISTING_DIR;
+      this.remoteStatus = REMOTE.NOT_EXISTING_DIR;
       return;
     }
 
@@ -132,9 +124,9 @@ export class Backup {
       if (answer.trim() === "false") {
         throw "it is not";
       }
-      this.remoteStatus = REMOTE_GIT_BARE_REPOS;
+      this.remoteStatus = REMOTE.GIT_BARE_REPOS;
     } catch (error) {
-      this.remoteStatus = REMOTE_NOT_GIT_BARE_REPOS;
+      this.remoteStatus = REMOTE.NOT_GIT_BARE_REPOS;
       return;
     }
   }
@@ -143,7 +135,7 @@ export class Backup {
     console.log("checkLocalDir");
     // check remote dir.
     if (!this.options.local) {
-      this.remoteStatus = LOCAL_NOT_SET;
+      this.localStatus = LOCAL.NOT_SET;
       return;
     }
 
@@ -152,7 +144,7 @@ export class Backup {
       await fs.promises.access(path.resolve(this.options.local));
       // The check succeeded
     } catch (error) {
-      this.remoteStatus = LOCAL_NOT_EXISTING_DIR;
+      this.localStatus = LOCAL.NOT_EXISTING_DIR;
       return;
     }
 
@@ -165,24 +157,26 @@ export class Backup {
         throw "it is not";
       }
     } catch (error) {
-      this.remoteStatus = LOCAL_NOT_GIT_REPOS;
+      this.localStatus = LOCAL.NOT_GIT_REPOS;
       return;
     }
 
     // check if remote
     try {
       // git remote add origin file:///D:/_bbb
-      process.chdir(path.resolve(this.options.local));
-      const answer = await cmd("git remote");
-      console.log("answer: ", answer);
-      if (answer.trim() !== "true") {
+      const answer = await cmd("git remote get-url origin");
+      const trimAnswer = answer.trim();
+      console.log("trimAnswer: ", trimAnswer);
+      const uri = dirToURI(this.options.remote ?? "");
+      console.log("uri: ", uri);
+      if (trimAnswer.trim() !== uri) {
         throw "it is not";
       }
     } catch (error) {
-      this.remoteStatus = LOCAL_NOT_GIT_REPOS;
+      this.localStatus = LOCAL.NOT_REMOTE;
       return;
     }
 
-    this.remoteStatus = LOCAL_GIT_CLONE_REPOS;
+    this.localStatus = LOCAL.GIT_CLONE_REPOS;
   }
 }

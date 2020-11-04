@@ -64,3 +64,7 @@ export function sleep(delay: number): Promise<void> {
     setTimeout(resolve, delay);
   });
 }
+
+export function dirToURI(dir: string): string {
+  return "file:///" + path.resolve(dir).replace("\\", "/");
+}
