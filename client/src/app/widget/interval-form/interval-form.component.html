@@ -1,12 +1,11 @@
 <form [formGroup]="f" (ngSubmit)="submit()">
   <label>
-    <div>Local repos</div>
-    <input type="text" formControlName="local" />
+    <div>Interval in seconds</div>
+    <input type="text" formControlName="intervalInSecond" />
   </label>
   <button class="primary" type="submit" [disabled]="f.invalid">
-    Update Local repos
+    Update Interval
   </button>
 </form>
-<div><b>Status: </b>{{ backupInfo.localStatus }}</div>
 <br />
 <br />
