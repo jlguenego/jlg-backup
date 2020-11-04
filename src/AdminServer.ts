@@ -14,14 +14,18 @@ export class AdminServer {
     intervalInSecond: 3600,
   };
   constructor(opts: BackupOptions = {}) {
+    console.log("USER_CONFIG_FILE: ", USER_CONFIG_FILE);
     try {
       const str = fs.readFileSync(USER_CONFIG_FILE, { encoding: "utf8" });
       const json = JSON.parse(str) as BackupOptions;
       delete json.$schema;
       this.options = { ...this.options, ...json };
-    } catch (e) {}
+    } catch (e) {
+      console.log("e: ", e);
+    }
 
     this.options = { ...this.options, ...opts };
+    console.log("this.options: ", this.options);
   }
 
   start(): Promise<void> {
