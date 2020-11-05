@@ -54,7 +54,7 @@ export class Backup {
     });
   }
 
-  reschedule(newIntervalInSecond: number | undefined) {
+  reschedule(newIntervalInSecond: number) {
     if (timeout) {
       clearTimeout(timeout);
     }
@@ -64,32 +64,28 @@ export class Backup {
   }
 
   async save(): Promise<void> {
-    console.log("backup start");
+    console.log("backup start at " + new Date());
     if (!this.options.local) {
       return;
     }
-    process.chdir(this.options.local);
     try {
+      process.chdir(this.options.local);
+      this.last = new Date();
       await cmd("git add -A .");
-    } catch (error) {}
-
-    try {
       await cmd("git commit -m backup");
-    } catch (error) {}
-    try {
       await cmd(`"${this.options.sh}" -c "git push" `);
+      console.log("backup finished at " + this.last);
     } catch (error) {
-      console.error("error: ", error);
+      console.error("backup error: ", error);
+    } finally {
+      process.chdir(cwd);
     }
-    process.chdir(cwd);
-    console.log("backup finished at " + new Date());
-    this.last = new Date();
   }
 
   async update(bo: BackupOptions) {
-    const options = { ...this.options, ...bo };
-    if (bo.intervalInSecond !== this.options.intervalInSecond) {
-      this.reschedule(bo.intervalInSecond);
+    const options: BackupOptions = { ...this.options, ...bo };
+    if (options.intervalInSecond !== this.options.intervalInSecond) {
+      this.reschedule(options.intervalInSecond ?? 3600);
     }
     try {
       await fs.promises.writeFile(
@@ -98,7 +94,6 @@ export class Backup {
         { encoding: "utf8" }
       );
       this.options = options;
-      this.save();
     } catch (e) {}
   }
 

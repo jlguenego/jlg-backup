@@ -12,6 +12,7 @@ export function ws(backup: Backup): Router {
       try {
         console.log("backup requested from client");
         await backup.save();
+        backup.reschedule(backup.options.intervalInSecond ?? 3600);
         res.json(backup);
       } catch (e) {
         res.status(400).json({ error: e });
