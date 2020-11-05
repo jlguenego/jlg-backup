@@ -59,8 +59,9 @@ export class Backup {
       clearTimeout(timeout);
     }
     const duration = getDuration(newIntervalInSecond);
-    this.next = new Date(new Date().getTime() + duration);
-    timeout = setTimeout(this.resolve, duration);
+    this.next = new Date(this.last.getTime() + duration);
+    const remaining = Math.max(this.next.getTime() - new Date().getTime(), 0);
+    timeout = setTimeout(this.resolve, remaining);
   }
 
   async save(): Promise<void> {
