@@ -52,6 +52,15 @@ form {
   max-width: 25em;
   display: flex;
   flex-flow: column;
+
+  nav {
+    padding-top: 1em;
+    display: flex;
+    justify-content: space-between;
+    button {
+      flex-grow: 0.4;
+    }
+  }
 }
 
 input {

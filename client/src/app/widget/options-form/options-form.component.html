@@ -1,0 +1,22 @@
+<form [formGroup]="f" (ngSubmit)="submit()">
+  <label>
+    <div>Remote repos</div>
+    <input type="text" formControlName="remote" />
+    <div><b>Status: </b>{{ backupInfo.remoteStatus }}</div>
+  </label>
+  <label>
+    <div>Local repos</div>
+    <input type="text" formControlName="local" />
+    <div><b>Status: </b>{{ backupInfo.localStatus }}</div>
+  </label>
+  <label>
+    <div>Backup time interval (seconds)</div>
+    <input type="text" formControlName="intervalInSecond" />
+  </label>
+  <nav>
+    <button type="button" (click)="reset()">Reset</button>
+    <button class="primary" type="submit" [disabled]="f.invalid">
+      Update Local repos
+    </button>
+  </nav>
+</form>
