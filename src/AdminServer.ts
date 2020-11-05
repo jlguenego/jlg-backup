@@ -1,6 +1,7 @@
 import express from "express";
 import serveIndex from "serve-index";
 import fs from "fs";
+import path from "path";
 import http from "http";
 
 import { ws } from "./ws";
@@ -34,7 +35,7 @@ export class AdminServer {
 
     return new Promise((resolve, reject) => {
       const app = express();
-      const www = "./static";
+      const www = path.resolve(__dirname, "../client/dist/client");
 
       app.use("/ws", ws(backup));
 

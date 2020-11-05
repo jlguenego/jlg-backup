@@ -6,6 +6,7 @@
   "scripts": {
     "admin": "npx nodemon",
     "build": "tsc -p src",
+    "build-client": "cd client && npm run build",
     "start": "node ./bin/jlg-backup.js install",
     "stop": "node ./bin/jlg-backup.js uninstall"
   },
