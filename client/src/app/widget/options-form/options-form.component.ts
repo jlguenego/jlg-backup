@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExclamationTriangle,
+  faCheck,
+} from '@fortawesome/free-solid-svg-icons';
 
 import { BackupInfo } from 'src/app/interfaces/backup-info';
 import { BackupService } from 'src/app/services/backup.service';
 import { BackupOptions } from '../../../../../src/interfaces';
+import { REMOTE, LOCAL } from '../../../../../src/enum';
 
 @Component({
   selector: 'app-options-form',
@@ -12,7 +16,7 @@ import { BackupOptions } from '../../../../../src/interfaces';
   styleUrls: ['./options-form.component.scss'],
 })
 export class OptionsFormComponent implements OnInit {
-  faTimes = faTimes;
+  faExclamationTriangle = faExclamationTriangle;
   faCheck = faCheck;
 
   f = new FormGroup({
@@ -46,5 +50,13 @@ export class OptionsFormComponent implements OnInit {
   submit(): void {
     console.log('submit');
     this.backupService.update(this.f.value as BackupOptions);
+  }
+
+  isRemoteStatusOK(): boolean {
+    return this.backupInfo.remoteStatus === REMOTE.GIT_BARE_REPOS;
+  }
+
+  isLocalStatusOK(): boolean {
+    return this.backupInfo.localStatus === LOCAL.GIT_CLONE_REPOS;
   }
 }

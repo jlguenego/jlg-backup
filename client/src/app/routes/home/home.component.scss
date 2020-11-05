@@ -1,17 +1,20 @@
+@import "src/variables";
+
 .flex {
+  margin: auto;
   display: flex;
   flex-flow: column;
-  justify-content: space-evenly;
+  max-width: 25em;
+  min-width: 19em;
 
   .item {
     flex-grow: 1;
     display: flex;
     flex-flow: column;
-    align-items: center;
+    align-items: stretch;
   }
 
   button.backup {
-    width: 15em;
     height: 3em;
   }
 }

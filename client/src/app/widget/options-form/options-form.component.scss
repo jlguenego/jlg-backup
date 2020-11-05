@@ -4,16 +4,11 @@ label {
   position: relative;
 }
 
-input + fa-icon {
-  position: absolute;
-  right: 0.75em;
-  top: 1.75em;
+fa-icon {
+  margin-right: 0.5em;
 }
 
-input.ng-invalid + fa-icon {
-  color: $primary-color;
-}
-
-input.ng-valid + fa-icon {
-  color: red;
+.error {
+  border: 0.2em solid red;
+  background: hsl(0, 100%, 90%);
 }
