@@ -32,6 +32,7 @@ export class OptionsFormComponent implements OnInit {
   ngOnInit(): void {}
 
   reset(): void {
+    this.f.reset();
     this.backupService.refresh();
   }
 
