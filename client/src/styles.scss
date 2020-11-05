@@ -13,7 +13,12 @@ body {
 }
 
 main {
+  width: 100%;
   padding: 0.5em;
+}
+
+h1 {
+  text-align: center;
 }
 
 button {
@@ -49,6 +54,7 @@ button {
 
 form {
   width: 100%;
+  min-width: 19em;
   max-width: 25em;
   display: flex;
   flex-flow: column;

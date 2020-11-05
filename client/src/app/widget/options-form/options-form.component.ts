@@ -26,6 +26,8 @@ export class OptionsFormComponent implements OnInit {
         local: this.backupInfo.options.local ?? '',
         intervalInSecond: this.backupInfo.options.intervalInSecond ?? '',
       });
+      this.f.markAsPristine();
+      this.f.markAsUntouched();
     });
   }
 
