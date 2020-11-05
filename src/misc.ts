@@ -2,6 +2,8 @@ import { promises as fs } from "fs";
 import path from "path";
 import { exec, spawn } from "child_process";
 
+export const cwd = process.cwd();
+
 export async function exists(str: string): Promise<boolean> {
   try {
     await fs.access(path.resolve(str));

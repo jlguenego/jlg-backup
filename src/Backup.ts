@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import os from "os";
 
-import { cmd, dirToURI, exists, sleep } from "./misc";
+import { cmd, cwd, exists } from "./misc";
 import { BackupOptions } from "./interfaces";
 import { LOCAL, REMOTE } from "./enum";
 import { Check } from "./Check";
@@ -35,7 +35,6 @@ export class Backup {
     if (!this.options.local) {
       return;
     }
-    this.init();
     try {
       while (true) {
         await this.save();
@@ -64,18 +63,6 @@ export class Backup {
     timeout = setTimeout(this.resolve, duration);
   }
 
-  async init() {
-    if (!this.options.local) {
-      return;
-    }
-    await fs.promises.mkdir(this.options.local, { recursive: true });
-    process.chdir(this.options.local);
-    if (!(await exists(path.resolve(this.options.local, ".git")))) {
-      console.log(".git do not exist");
-      await cmd("git init");
-    }
-  }
-
   async save(): Promise<void> {
     console.log("backup start");
     if (!this.options.local) {
@@ -94,6 +81,7 @@ export class Backup {
     } catch (error) {
       console.error("error: ", error);
     }
+    process.chdir(cwd);
     console.log("backup finished at " + new Date());
     this.last = new Date();
   }
@@ -110,7 +98,6 @@ export class Backup {
         { encoding: "utf8" }
       );
       this.options = options;
-      this.init();
       this.save();
     } catch (e) {}
   }
