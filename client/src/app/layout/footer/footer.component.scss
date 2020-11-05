@@ -1,5 +1,7 @@
+@import "src/variables";
+
 footer {
-  background: #eee;
+  background: $primary-bgcolor;
   display: flex;
   align-items: center;
   justify-content: center;

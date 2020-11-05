@@ -1,8 +1,10 @@
+@import "src/variables";
+
 header {
   height: 3em;
   display: flex;
   align-items: center;
-  background: #eee;
+  background: $primary-bgcolor;
 }
 
 img {

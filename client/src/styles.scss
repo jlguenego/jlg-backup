@@ -2,6 +2,8 @@
 
 @import "../node_modules/normalize.css/normalize.css";
 
+@import "./variables.scss";
+
 *,
 *::before,
 *::after {
@@ -37,16 +39,16 @@ button {
     }
 
     &.primary {
-      border-color: #333;
-      background: #333;
+      border-color: $primary-color;
+      background: $primary-color;
       color: #fff;
       &:hover {
-        border-color: #444;
-        background: #444;
+        border-color: lighten($primary-color, 10%);
+        background: lighten($primary-color, 10%);
       }
       &:active {
-        border-color: #555;
-        background: #555;
+        border-color: lighten($primary-color, 20%);
+        background: lighten($primary-color, 20%);
       }
     }
   }
