@@ -5,8 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "admin": "npx nodemon",
-    "build": "tsc -p src",
-    "build-client": "cd client && npm run build",
+    "build:ts": "tsc -p src",
+    "build:client": "cd client && npm run build",
+    "build": "npm run build:ts && npm run build:client",
     "start": "node ./bin/jlg-backup.js install",
     "stop": "node ./bin/jlg-backup.js uninstall",
     "release": "standard-version"

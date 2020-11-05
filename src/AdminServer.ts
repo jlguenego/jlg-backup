@@ -35,7 +35,7 @@ export class AdminServer {
 
     return new Promise((resolve, reject) => {
       const app = express();
-      const www = path.resolve(__dirname, "../client/dist/client");
+      const www = path.resolve(__dirname, "../static");
 
       app.use("/ws", ws(backup));
 
