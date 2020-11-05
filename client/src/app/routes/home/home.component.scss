@@ -1,0 +1,10 @@
+.flex {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+
+  button.backup {
+    width: 15em;
+    height: 15em;
+  }
+}

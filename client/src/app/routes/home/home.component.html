@@ -1,14 +1,23 @@
 <main>
   <h1>Administration</h1>
-  <app-options-form></app-options-form>
-
-  <ul>
-    <li>
-      <b>Last backup: </b><span>{{ last | date: "medium" }}</span>
-    </li>
-    <li>
-      <b>Next backup: </b><span>{{ next | date: "medium" }}</span>
-    </li>
-  </ul>
-  <button (click)="backup()">Backup now!</button>
+  <div class="flex">
+    <div class="item">
+      <app-options-form></app-options-form>
+      <br />
+      <div>
+        <div>
+          <b>Last backup: </b
+          ><span>{{ backupInfo.last | date: "medium" }}</span>
+        </div>
+        <div>
+          <b>Next backup: </b
+          ><span>{{ backupInfo.next | date: "medium" }}</span>
+        </div>
+      </div>
+      <br />
+    </div>
+    <div class="item">
+      <button class="backup" (click)="backup()">Backup now!</button>
+    </div>
+  </div>
 </main>
