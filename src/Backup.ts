@@ -4,7 +4,7 @@ import os from "os";
 
 import { cmd, cwd, exists } from "./misc";
 import { BackupOptions } from "./interfaces";
-import { LOCAL, REMOTE } from "./enum";
+import { BACKUP, LOCAL, REMOTE } from "./enum";
 import { Check } from "./Check";
 
 export const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
@@ -24,6 +24,7 @@ export class Backup {
 
   remoteStatus = REMOTE.NOT_SET;
   localStatus = LOCAL.NOT_SET;
+  backupStatus = BACKUP.OK;
   resolve = () => {};
 
   constructor(opts: Partial<BackupOptions> = {}) {
@@ -72,9 +73,25 @@ export class Backup {
     try {
       process.chdir(this.options.local);
       this.last = new Date();
-      await cmd("git add -A .");
-      await cmd("git commit -m backup");
-      await cmd(`"${this.options.sh}" -c "git push" `);
+      try {
+        await cmd("git add -A .");
+      } catch (e) {
+        this.backupStatus = BACKUP.NOTHING_TO_ADD;
+        throw e;
+      }
+      try {
+        await cmd("git commit -m backup");
+      } catch (e) {
+        this.backupStatus = BACKUP.NOTHING_TO_COMMIT;
+        throw e;
+      }
+      try {
+        await cmd(`"${this.options.sh}" -c "git push" `);
+      } catch (e) {
+        this.backupStatus = BACKUP.CANNOT_PUSH;
+        throw e;
+      }
+      this.backupStatus = BACKUP.OK;
       console.log("backup finished at " + this.last);
     } catch (error) {
       console.error("backup error: ", error);

@@ -18,6 +18,10 @@
     </div>
     <div class="item">
       <button class="primary backup" (click)="backup()">Backup now!</button>
+      <div>
+        <b>Last status:</b>
+        <span> {{ backupInfo.backupStatus }}</span>
+      </div>
     </div>
   </div>
 </main>
