@@ -21,18 +21,18 @@ export class OptionsFormComponent implements OnInit {
   constructor(private backupService: BackupService) {
     this.backupService.backupInfo$.subscribe((backupInfo) => {
       this.backupInfo = backupInfo;
-      this.reset();
+      this.f.setValue({
+        remote: this.backupInfo.options.remote ?? '',
+        local: this.backupInfo.options.local ?? '',
+        intervalInSecond: this.backupInfo.options.intervalInSecond ?? '',
+      });
     });
   }
 
   ngOnInit(): void {}
 
   reset(): void {
-    this.f.setValue({
-      remote: this.backupInfo.options.remote ?? '',
-      local: this.backupInfo.options.local ?? '',
-      intervalInSecond: this.backupInfo.options.intervalInSecond ?? '',
-    });
+    this.backupService.refresh();
   }
 
   submit(): void {
