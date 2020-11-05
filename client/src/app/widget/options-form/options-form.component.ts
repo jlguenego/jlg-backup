@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
+
 import { BackupInfo } from 'src/app/interfaces/backup-info';
 import { BackupService } from 'src/app/services/backup.service';
 import { BackupOptions } from '../../../../../src/interfaces';
@@ -10,6 +12,9 @@ import { BackupOptions } from '../../../../../src/interfaces';
   styleUrls: ['./options-form.component.scss'],
 })
 export class OptionsFormComponent implements OnInit {
+  faTimes = faTimes;
+  faCheck = faCheck;
+
   f = new FormGroup({
     remote: new FormControl(''),
     local: new FormControl(''),

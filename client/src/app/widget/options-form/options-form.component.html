@@ -2,16 +2,18 @@
   <label>
     <div>Remote repos</div>
     <input type="text" formControlName="remote" />
+
     <div><b>Status: </b>{{ backupInfo.remoteStatus }}</div>
   </label>
   <label>
     <div>Local repos</div>
     <input type="text" formControlName="local" />
+
     <div><b>Status: </b>{{ backupInfo.localStatus }}</div>
   </label>
   <label>
     <div>Backup time interval (seconds)</div>
-    <input type="text" formControlName="intervalInSecond" />
+    <input type="number" formControlName="intervalInSecond" min="0" step="1" />
   </label>
   <nav>
     <button type="button" (click)="reset()">Reset</button>
