@@ -1,10 +1,11 @@
 export interface BackupOptions {
-  $schema?: string;
-  port?: number;
-  local?: string;
-  intervalInSecond?: number;
-  sh?: string;
-  git?: GitOptions;
+  $schema: string;
+  port: number;
+  local: string;
+  remote: string;
+  intervalInSecond: number;
+  sh: string;
+  git: GitOptions;
 }
 
 export interface BackupMessage {

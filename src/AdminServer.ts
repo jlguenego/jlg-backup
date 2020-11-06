@@ -13,14 +13,19 @@ import { BackupOptions } from "./interfaces";
 
 export class AdminServer {
   options: BackupOptions = {
-    port: 55555,
+    $schema: "",
+    sh: path.resolve("C:\\Program Files\\Git\\bin\\sh.exe"),
     intervalInSecond: 3600,
+    local: "",
+    remote: "",
+    git: {},
+    port: 55555,
   };
-  constructor(opts: BackupOptions = {}) {
+  constructor(opts: Partial<BackupOptions> = {}) {
     console.log("USER_CONFIG_FILE: ", USER_CONFIG_FILE);
     try {
       const str = fs.readFileSync(USER_CONFIG_FILE, { encoding: "utf8" });
-      const json = JSON.parse(str) as BackupOptions;
+      const json = JSON.parse(str) as Partial<BackupOptions>;
       delete json.$schema;
       this.options = { ...this.options, ...json };
     } catch (e) {

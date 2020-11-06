@@ -7,6 +7,7 @@ import { BackupOptions } from "./interfaces";
 import { BACKUP, LOCAL } from "./enum";
 import { Check } from "./Check";
 import { BackupWebSocket } from "./BackupWebSocket";
+import { convertToGitRepos } from "./GitUtils";
 
 export const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
 
@@ -21,8 +22,13 @@ export class Backup {
   last = new Date();
   next = new Date();
   options: BackupOptions = {
+    $schema: "",
     sh: path.resolve("C:\\Program Files\\Git\\bin\\sh.exe"),
     intervalInSecond: 3600,
+    local: "",
+    remote: "",
+    git: {},
+    port: 55555,
   };
 
   localStatus = LOCAL.NOT_SET;
@@ -101,6 +107,7 @@ export class Backup {
       }
       process.chdir(repos);
       this.last = new Date();
+      await convertToGitRepos(repos, path.resolve(this.options.remote));
       await this.cmd("git add -A .");
       await this.cmd("git commit -m backup");
       await this.cmd(`"${this.options.sh}" -c "git push" `);
