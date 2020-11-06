@@ -18,6 +18,7 @@ export class BackupService {
     next: '1970-01-01',
     options: {},
     localStatus: LOCAL.INIT,
+    localStatus: LOCAL.INIT,
     backupStatus: BACKUP.OK,
   });
 
