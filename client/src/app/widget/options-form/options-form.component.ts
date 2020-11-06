@@ -53,4 +53,8 @@ export class OptionsFormComponent implements OnInit {
   isLocalStatusOK(): boolean {
     return this.backupInfo.localStatus === LOCAL.OK;
   }
+
+  isRemoteStatusOK(): boolean {
+    return this.backupInfo.localStatus === LOCAL.OK;
+  }
 }
