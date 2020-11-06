@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { exec, spawn } from "child_process";
+import { DateTime } from "luxon";
 
 export const cwd = process.cwd();
 
@@ -69,3 +70,9 @@ export function sleep(delay: number): Promise<void> {
 export function dirToURI(dir: string): string {
   return "file:///" + path.resolve(dir).replace("\\", "/");
 }
+
+export function now() {
+  return DateTime.local().toISO();
+}
+
+export const log = console.log.bind(console, `${now()}: `);

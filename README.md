@@ -2,6 +2,7 @@
 
 ## TODO
 
+- path type
 - directory containing repos
 - write readme
 - async button

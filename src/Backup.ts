@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
 import os from "os";
+import { DateTime } from "luxon";
 
-import { cmd, cwd } from "./misc";
+import { cmd, cwd, log, now } from "./misc";
 import { BackupOptions } from "./interfaces";
 import { BACKUP, LOCAL } from "./enum";
 import { Check } from "./Check";
@@ -37,7 +38,7 @@ export class Backup {
     }
     try {
       while (true) {
-        await this.save();
+        await this.backup();
         await this.wait();
       }
     } catch (error) {
@@ -64,38 +65,47 @@ export class Backup {
     timeout = setTimeout(this.resolve, remaining);
   }
 
-  async save(): Promise<void> {
-    console.log("backup start at " + new Date());
+  async backup(): Promise<void> {
+    log(`START backup`);
     if (!this.options.local) {
       return;
     }
+    const local = this.options.local;
     try {
-      process.chdir(this.options.local);
-      this.last = new Date();
-      try {
-        await cmd("git add -A .");
-      } catch (e) {
-        this.backupStatus = BACKUP.NOTHING_TO_ADD;
-        throw e;
+      const entries = await fs.promises.readdir(
+        path.resolve(this.options.local)
+      );
+      for (const entry of entries) {
+        await this.backupRepos(path.resolve(local, entry));
       }
-      try {
-        await cmd("git commit -m backup");
-      } catch (e) {
-        this.backupStatus = BACKUP.NOTHING_TO_COMMIT;
-        throw e;
-      }
-      try {
-        await cmd(`"${this.options.sh}" -c "git push" `);
-      } catch (e) {
-        this.backupStatus = BACKUP.CANNOT_PUSH;
-        throw e;
-      }
-      this.backupStatus = BACKUP.OK;
-      console.log("backup finished at " + this.last);
+    } catch (error) {}
+
+    try {
     } catch (error) {
       console.error("backup error: ", error);
     } finally {
       process.chdir(cwd);
+      log(`END backup`);
+    }
+  }
+
+  async backupRepos(repos: string) {
+    try {
+      log(`START backupRepos ${repos}`);
+      const lstat = await fs.promises.lstat(repos);
+      if (!lstat.isDirectory()) {
+        return;
+      }
+      process.chdir(repos);
+      this.last = new Date();
+      await cmd("git add -A .");
+      await cmd("git commit -m backup");
+      await cmd(`"${this.options.sh}" -c "git push" `);
+    } catch (error) {
+      console.error("error: ", error);
+    } finally {
+      process.chdir(cwd);
+      log(`END backupRepos ${repos}`);
     }
   }
 
