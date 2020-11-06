@@ -31,7 +31,7 @@ export class OptionsFormComponent implements OnInit {
     this.backupService.backupInfo$.subscribe((backupInfo) => {
       this.backupInfo = backupInfo;
       this.f.setValue({
-        remote: this.backupInfo.options.local ?? '',
+        remote: this.backupInfo.options.remote ?? '',
         local: this.backupInfo.options.local ?? '',
         intervalInSecond: this.backupInfo.options.intervalInSecond ?? '',
       });
