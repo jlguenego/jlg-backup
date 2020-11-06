@@ -1,12 +1,30 @@
 import fs from "fs";
 import path from "path";
 
-import { LOCAL } from "./enum";
+import { LOCAL, REMOTE } from "./enum";
 import { BackupOptions } from "./interfaces";
 import { cmd } from "./misc";
 
 export class Check {
   constructor(private options: BackupOptions) {}
+
+  async remoteDir(remote: string | undefined): Promise<REMOTE> {
+    // check local dir.
+    if (!remote) {
+      return REMOTE.NOT_SET;
+    }
+
+    // check existing directory
+    try {
+      await fs.promises.access(path.resolve(remote));
+      // The check succeeded
+    } catch (error) {
+      return REMOTE.NOT_EXISTING_DIR;
+    }
+
+    return REMOTE.OK;
+  }
+
   async localDir(local: string | undefined): Promise<LOCAL> {
     // check local dir.
     if (!local) {

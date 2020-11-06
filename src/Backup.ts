@@ -4,7 +4,7 @@ import os from "os";
 
 import { cmd, cwd, log, now } from "./misc";
 import { BackupOptions } from "./interfaces";
-import { BACKUP, LOCAL } from "./enum";
+import { BACKUP, LOCAL, REMOTE } from "./enum";
 import { Check } from "./Check";
 import { BackupWebSocket } from "./BackupWebSocket";
 import { convertToGitRepos } from "./GitUtils";
@@ -31,6 +31,7 @@ export class Backup {
     port: 55555,
   };
 
+  remoteStatus = REMOTE.NOT_SET;
   localStatus = LOCAL.NOT_SET;
   backupStatus = BACKUP.OK;
   resolve = () => {};
@@ -136,6 +137,7 @@ export class Backup {
 
   async check() {
     const check = new Check(this.options);
+    this.remoteStatus = await check.remoteDir(this.options.remote);
     this.localStatus = await check.localDir(this.options.local);
     await check.gitUser();
   }
