@@ -17,7 +17,7 @@ export class BackupService {
     last: '1970-01-01',
     next: '1970-01-01',
     options: {},
-    remoteStatus: LOCAL.INIT,
+    remoteStatus: REMOTE.INIT,
     localStatus: LOCAL.INIT,
     backupStatus: BACKUP.OK,
   });
