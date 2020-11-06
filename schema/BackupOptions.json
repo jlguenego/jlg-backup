@@ -16,11 +16,7 @@
         },
         "local": {
           "type": "string",
-          "description": "Local directory. Will be converted if necessary to a local git repository"
-        },
-        "remote": {
-          "type": "string",
-          "description": "Remote directory. Must be a remote git repository"
+          "description": "Directory containing all git local repositories."
         },
         "intervalInSecond": {
           "type": "number",

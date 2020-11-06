@@ -2,9 +2,9 @@ import fs from "fs";
 import path from "path";
 import os from "os";
 
-import { cmd, cwd, exists } from "./misc";
+import { cmd, cwd } from "./misc";
 import { BackupOptions } from "./interfaces";
-import { BACKUP, LOCAL, REMOTE } from "./enum";
+import { BACKUP, LOCAL } from "./enum";
 import { Check } from "./Check";
 
 export const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
@@ -22,7 +22,6 @@ export class Backup {
     intervalInSecond: 3600,
   };
 
-  remoteStatus = REMOTE.NOT_SET;
   localStatus = LOCAL.NOT_SET;
   backupStatus = BACKUP.OK;
   resolve = () => {};
@@ -117,10 +116,6 @@ export class Backup {
 
   async check() {
     const check = new Check();
-    this.remoteStatus = await check.remoteDir(this.options.remote);
-    this.localStatus = await check.localDir(
-      this.options.local,
-      this.options.remote
-    );
+    this.localStatus = await check.localDir(this.options.local);
   }
 }

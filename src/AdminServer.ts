@@ -11,7 +11,7 @@ import { BackupOptions } from "./interfaces";
 
 export class AdminServer {
   options: BackupOptions = {
-    port: 3000,
+    port: 55555,
     intervalInSecond: 3600,
   };
   constructor(opts: BackupOptions = {}) {

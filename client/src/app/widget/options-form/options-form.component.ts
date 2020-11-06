@@ -8,7 +8,7 @@ import {
 import { BackupInfo } from 'src/app/interfaces/backup-info';
 import { BackupService } from 'src/app/services/backup.service';
 import { BackupOptions } from '../../../../../src/interfaces';
-import { REMOTE, LOCAL } from '../../../../../src/enum';
+import { LOCAL } from '../../../../../src/enum';
 
 @Component({
   selector: 'app-options-form',
@@ -20,7 +20,6 @@ export class OptionsFormComponent implements OnInit {
   faCheck = faCheck;
 
   f = new FormGroup({
-    remote: new FormControl(''),
     local: new FormControl(''),
     intervalInSecond: new FormControl(''),
   });
@@ -31,7 +30,6 @@ export class OptionsFormComponent implements OnInit {
     this.backupService.backupInfo$.subscribe((backupInfo) => {
       this.backupInfo = backupInfo;
       this.f.setValue({
-        remote: this.backupInfo.options.remote ?? '',
         local: this.backupInfo.options.local ?? '',
         intervalInSecond: this.backupInfo.options.intervalInSecond ?? '',
       });
@@ -50,10 +48,6 @@ export class OptionsFormComponent implements OnInit {
   submit(): void {
     console.log('submit');
     this.backupService.update(this.f.value as BackupOptions);
-  }
-
-  isRemoteStatusOK(): boolean {
-    return this.backupInfo.remoteStatus === REMOTE.GIT_BARE_REPOS;
   }
 
   isLocalStatusOK(): boolean {

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BackupInfo } from '../interfaces/backup-info';
 import { BehaviorSubject } from 'rxjs';
 import { BackupOptions } from '../../../../src/interfaces';
-import { BACKUP, LOCAL, REMOTE } from '../../../../src/enum';
+import { BACKUP, LOCAL } from '../../../../src/enum';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,6 @@ export class BackupService {
     last: '1970-01-01',
     next: '1970-01-01',
     options: {},
-    remoteStatus: REMOTE.INIT,
     localStatus: LOCAL.INIT,
     backupStatus: BACKUP.OK,
   });

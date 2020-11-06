@@ -1,11 +1,3 @@
-export enum REMOTE {
-  INIT = "Init...",
-  NOT_SET = "Remote not set",
-  NOT_EXISTING_DIR = "Remote directory not existing",
-  NOT_GIT_BARE_REPOS = "Remote directory is not bare git repository",
-  GIT_BARE_REPOS = "Remote git repos",
-}
-
 export enum LOCAL {
   INIT = "Init...",
   NOT_SET = "Local not set",
