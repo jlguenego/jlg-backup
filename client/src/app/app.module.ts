@@ -9,6 +9,7 @@ import { LegalComponent } from './routes/legal/legal.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WidgetModule } from './widget/widget.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, LegalComponent],
@@ -19,6 +20,7 @@ import { WidgetModule } from './widget/widget.module';
     HttpClientModule,
     ReactiveFormsModule,
     WidgetModule,
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

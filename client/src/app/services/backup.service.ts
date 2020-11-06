@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BackupInfo } from '../interfaces/backup-info';
 import { BehaviorSubject } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { BackupOptions } from '../../../../src/interfaces';
 import { BACKUP, LOCAL } from '../../../../src/enum';
 
@@ -16,6 +17,8 @@ export class BackupService {
     localStatus: LOCAL.INIT,
     backupStatus: BACKUP.OK,
   });
+
+  backuping = false;
 
   constructor(private http: HttpClient) {
     this.refresh();
@@ -33,14 +36,20 @@ export class BackupService {
   }
 
   backup(): void {
-    this.http.get<BackupInfo>('/ws/backup').subscribe({
-      next: (backupInfo) => {
-        this.backupInfo$.next(backupInfo);
-      },
-      error: (error) => {
-        console.error('error: ', error);
-      },
-    });
+    this.backuping = true;
+    this.http
+      .get<BackupInfo>('/ws/backup')
+      .pipe(delay(2000))
+      .subscribe({
+        next: (backupInfo) => {
+          this.backuping = false;
+          this.backupInfo$.next(backupInfo);
+        },
+        error: (error) => {
+          this.backuping = false;
+          console.error('error: ', error);
+        },
+      });
   }
 
   update(backupOptions: BackupOptions): void {
