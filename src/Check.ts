@@ -2,9 +2,11 @@ import fs from "fs";
 import path from "path";
 
 import { LOCAL } from "./enum";
+import { BackupOptions } from "./interfaces";
 import { cmd } from "./misc";
 
 export class Check {
+  constructor(private options: BackupOptions) {}
   async localDir(local: string | undefined): Promise<LOCAL> {
     // check local dir.
     if (!local) {
@@ -23,8 +25,9 @@ export class Check {
   }
 
   async gitUser() {
-    const username = "Backuper";
-    const email = "please@enjoy-jlg-backup.com";
+    const username = this.options.git?.user?.name ?? "Backuper";
+    const email =
+      this.options.git?.user?.email ?? "please@enjoy-jlg-backup.com";
     try {
       await cmd("git config --global --get user.name");
       await cmd("git config --global --get user.email");
