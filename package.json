@@ -1,12 +1,18 @@
 {
   "name": "jlg-backup",
-  "version": "1.0.4",
-  "description": "",
+  "version": "1.0.5",
+  "description": "JLG Backup. Using git to make your backup.",
+  "keywords": [
+    "git",
+    "backup",
+    "windows",
+    "service"
+  ],
   "main": "src/index.ts",
   "scripts": {
-    "admin": "npx nodemon",
+    "admin": "nodemon",
     "build:ts": "tsc -p src",
-    "build:client": "cd client && npm run build",
+    "build:client": "cd client && npm i && npm run build",
     "build": "npm run build:ts && npm run build:client",
     "start": "node ./bin/jlg-backup.js install",
     "stop": "node ./bin/jlg-backup.js uninstall",
