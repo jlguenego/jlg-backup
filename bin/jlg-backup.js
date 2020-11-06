@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { Service } = require("node-windows");
 const path = require("path");
 const yargs = require("yargs");
