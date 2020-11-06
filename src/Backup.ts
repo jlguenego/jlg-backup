@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
 import os from "os";
-import { DateTime } from "luxon";
 
 import { cmd, cwd, log, now } from "./misc";
 import { BackupOptions } from "./interfaces";
