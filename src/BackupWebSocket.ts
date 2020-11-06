@@ -1,5 +1,6 @@
 import http from "http";
 import * as WebSocket from "ws";
+import { BackupMessage } from "./interfaces";
 
 export class BackupWebSocket {
   wss: WebSocket.Server;
@@ -15,7 +16,20 @@ export class BackupWebSocket {
       });
 
       //send immediatly a feedback to the incoming connection
-      ws.send("Hi there, I am a WebSocket server");
+      ws.send(
+        JSON.stringify({
+          message: "Websocket running",
+        })
+      );
+    });
+  }
+
+  broadcast(msg: BackupMessage) {
+    this.wss.clients.forEach((client) => {
+      if (client.readyState !== WebSocket.OPEN) {
+        return;
+      }
+      client.send(JSON.stringify(msg));
     });
   }
 }

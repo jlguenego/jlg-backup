@@ -68,7 +68,7 @@ export class Backup {
   }
 
   async backup(): Promise<void> {
-    log(`START backup`);
+    this.broadcast(`START backup`, true);
     if (!this.options.local) {
       return;
     }
@@ -84,30 +84,31 @@ export class Backup {
 
     try {
     } catch (error) {
-      console.error("backup error: ", error);
+      this.broadcast("backup error: ", error);
     } finally {
       process.chdir(cwd);
-      log(`END backup`);
+      this.broadcast(`END backup`, false);
     }
   }
 
   async backupRepos(repos: string) {
     try {
-      log(`START backupRepos ${repos}`);
+      this.broadcast(`START backupRepos ${repos}`);
       const lstat = await fs.promises.lstat(repos);
       if (!lstat.isDirectory()) {
+        this.broadcast(`${repos} is not a directory`);
         return;
       }
       process.chdir(repos);
       this.last = new Date();
-      await cmd("git add -A .");
-      await cmd("git commit -m backup");
-      await cmd(`"${this.options.sh}" -c "git push" `);
+      await this.cmd("git add -A .");
+      await this.cmd("git commit -m backup");
+      await this.cmd(`"${this.options.sh}" -c "git push" `);
     } catch (error) {
       console.error("error: ", error);
     } finally {
       process.chdir(cwd);
-      log(`END backupRepos ${repos}`);
+      this.broadcast(`END backupRepos ${repos}`);
     }
   }
 
@@ -129,5 +130,19 @@ export class Backup {
   async check() {
     const check = new Check();
     this.localStatus = await check.localDir(this.options.local);
+  }
+
+  broadcast(msg: string, backuping = false): void {
+    this.backupWs?.broadcast({ message: msg, backuping });
+    log(msg);
+  }
+
+  async cmd(command: string): Promise<void> {
+    try {
+      this.broadcast(`START ${command}`, true);
+      await cmd(command);
+    } catch (error) {
+      this.broadcast(`ERROR while doing: ${command} - ${error}`, true);
+    }
   }
 }

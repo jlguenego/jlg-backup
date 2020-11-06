@@ -5,3 +5,8 @@ export interface BackupOptions {
   intervalInSecond?: number;
   sh?: string;
 }
+
+export interface BackupMessage {
+  backuping?: boolean;
+  message: string;
+}
