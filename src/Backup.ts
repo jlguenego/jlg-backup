@@ -6,6 +6,7 @@ import { cmd, cwd, log, now } from "./misc";
 import { BackupOptions } from "./interfaces";
 import { BACKUP, LOCAL } from "./enum";
 import { Check } from "./Check";
+import { BackupWebSocket } from "./BackupWebSocket";
 
 export const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
 
@@ -15,6 +16,8 @@ const getDuration = (intervalInSecond: number | undefined) =>
 let timeout: NodeJS.Timeout | undefined;
 
 export class Backup {
+  backupWs: BackupWebSocket | undefined;
+
   last = new Date();
   next = new Date();
   options: BackupOptions = {

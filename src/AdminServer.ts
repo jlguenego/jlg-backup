@@ -3,7 +3,9 @@ import serveIndex from "serve-index";
 import fs from "fs";
 import path from "path";
 import http from "http";
+import WebSocket from "ws";
 
+import { BackupWebSocket } from "./BackupWebSocket";
 import { ws } from "./ws";
 
 import { Backup, USER_CONFIG_FILE } from "./Backup";
@@ -30,23 +32,24 @@ export class AdminServer {
   }
 
   start(): Promise<void> {
+    const app = express();
+    const server = http.createServer(app);
+    const backupWs = new BackupWebSocket(server);
+
     const backup = new Backup(this.options);
-    backup.start();
+    backup.backupWs = backupWs;
+    app.use("/ws", ws(backup));
+
+    const www = path.resolve(__dirname, "../static");
+    app.use(express.static(www));
+    app.use(serveIndex(www, { icons: true }));
 
     return new Promise((resolve, reject) => {
-      const app = express();
-      const www = path.resolve(__dirname, "../static");
-
-      app.use("/ws", ws(backup));
-
-      app.use(express.static(www));
-      app.use(serveIndex(www, { icons: true }));
-
-      const server = http.createServer(app);
       server.listen(this.options.port, () => {
         console.log(
           `Example app listening at http://localhost:${this.options.port}`
         );
+        backup.start();
         resolve();
       });
       server.on("error", (e) => {
