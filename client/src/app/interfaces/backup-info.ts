@@ -1,4 +1,4 @@
-import { BACKUP, LOCAL } from '../../../../src/enum';
+import { BACKUP, LOCAL, REMOTE } from '../../../../src/enum';
 import { BackupOptions } from '../../../../src/interfaces';
 
 export interface BackupInfo {
