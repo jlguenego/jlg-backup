@@ -20,6 +20,7 @@ export class OptionsFormComponent implements OnInit {
   faCheck = faCheck;
 
   f = new FormGroup({
+    remote: new FormControl(''),
     local: new FormControl(''),
     intervalInSecond: new FormControl(''),
   });
