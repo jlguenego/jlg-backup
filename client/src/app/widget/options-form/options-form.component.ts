@@ -51,6 +51,6 @@ export class OptionsFormComponent implements OnInit {
   }
 
   isLocalStatusOK(): boolean {
-    return this.backupInfo.localStatus === LOCAL.GIT_CLONE_REPOS;
+    return this.backupInfo.localStatus === LOCAL.OK;
   }
 }

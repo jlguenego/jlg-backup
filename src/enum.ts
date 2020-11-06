@@ -1,10 +1,8 @@
 export enum LOCAL {
   INIT = "Init...",
-  NOT_SET = "Local not set",
-  NOT_EXISTING_DIR = "Local directory not existing",
-  NOT_GIT_REPOS = "Local directory is not a git repository",
-  NOT_REMOTE = "Git repos without accessible remote.",
-  GIT_CLONE_REPOS = "Clone git repos.",
+  NOT_SET = "Local not set.",
+  NOT_EXISTING_DIR = "Local directory not existing.",
+  OK = "Local directory set.",
 }
 
 export enum BACKUP {
