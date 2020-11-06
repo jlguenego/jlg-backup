@@ -5,6 +5,7 @@ export interface BackupInfo {
   last: string;
   next: string;
   options: Partial<BackupOptions>;
+  remoteStatus: REMOTE;
   localStatus: LOCAL;
   backupStatus: BACKUP;
 }
