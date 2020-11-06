@@ -1,23 +1,6 @@
 <form [formGroup]="f" (ngSubmit)="submit()">
   <label>
-    <div>Remote repos</div>
-    <input
-      [class.error]="!isRemoteStatusOK()"
-      type="text"
-      formControlName="remote"
-    />
-
-    <div *ngIf="isRemoteStatusOK()">
-      <fa-icon [icon]="faCheck"></fa-icon>
-      <span>{{ backupInfo.remoteStatus }}</span>
-    </div>
-    <div *ngIf="!isRemoteStatusOK()">
-      <fa-icon [icon]="faExclamationTriangle"></fa-icon>
-      <b>{{ backupInfo.remoteStatus }}</b>
-    </div>
-  </label>
-  <label>
-    <div>Local repos</div>
+    <div>Directory containing local repos</div>
     <input
       [class.error]="!isLocalStatusOK()"
       type="text"
