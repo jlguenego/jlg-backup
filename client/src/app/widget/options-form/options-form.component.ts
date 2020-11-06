@@ -32,6 +32,7 @@ export class OptionsFormComponent implements OnInit {
       this.backupInfo = backupInfo;
       this.f.setValue({
         local: this.backupInfo.options.local ?? '',
+        local: this.backupInfo.options.local ?? '',
         intervalInSecond: this.backupInfo.options.intervalInSecond ?? '',
       });
       this.f.markAsPristine();
