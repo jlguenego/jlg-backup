@@ -8,7 +8,7 @@ import {
 import { BackupInfo } from 'src/app/interfaces/backup-info';
 import { BackupService } from 'src/app/services/backup.service';
 import { BackupOptions } from '../../../../../src/interfaces';
-import { LOCAL } from '../../../../../src/enum';
+import { LOCAL, REMOTE } from '../../../../../src/enum';
 
 @Component({
   selector: 'app-options-form',
@@ -52,11 +52,11 @@ export class OptionsFormComponent implements OnInit {
     this.backupService.update(this.f.value as BackupOptions);
   }
 
-  isLocalStatusOK(): boolean {
-    return this.backupInfo.localStatus === LOCAL.OK;
-  }
-
   isRemoteStatusOK(): boolean {
     return this.backupInfo.remoteStatus === REMOTE.OK;
+  }
+
+  isLocalStatusOK(): boolean {
+    return this.backupInfo.localStatus === LOCAL.OK;
   }
 }
