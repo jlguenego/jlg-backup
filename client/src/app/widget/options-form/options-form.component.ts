@@ -5,9 +5,8 @@ import {
   faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { BackupInfo } from 'src/app/interfaces/backup-info';
 import { BackupService } from 'src/app/services/backup.service';
-import { BackupOptions } from '../../../../../src/interfaces';
+import { BackupInfo, BackupOptions } from '../../../../../src/interfaces';
 import { LOCAL, REMOTE } from '../../../../../src/enum';
 
 @Component({

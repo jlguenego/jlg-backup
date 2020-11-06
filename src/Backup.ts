@@ -1,13 +1,14 @@
 import fs from "fs";
 import path from "path";
 import os from "os";
+import { DateTime } from "luxon";
 
 import { cmd, cwd, log, now } from "./misc";
-import { BackupOptions } from "./interfaces";
+import { BackupInfo, BackupOptions } from "./interfaces";
 import { BACKUP, LOCAL, REMOTE } from "./enum";
 import { Check } from "./Check";
 import { BackupWebSocket } from "./BackupWebSocket";
-import { convertToGitRepos } from "./GitUtils";
+import { GitUtils } from "./GitUtils";
 
 export const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
 
@@ -18,9 +19,10 @@ let timeout: NodeJS.Timeout | undefined;
 
 export class Backup {
   backupWs: BackupWebSocket | undefined;
+  gitUtils = new GitUtils(this);
 
-  last = new Date();
-  next = new Date();
+  last = "";
+  next = "";
   options: BackupOptions = {
     $schema: "",
     sh: path.resolve("C:\\Program Files\\Git\\bin\\sh.exe"),
@@ -41,6 +43,13 @@ export class Backup {
     this.check();
   }
 
+  getInfo(): BackupInfo {
+    const result = { ...this };
+    delete (result as Partial<Backup>).gitUtils;
+    delete (result as Partial<Backup>).backupWs;
+    return result;
+  }
+
   async start(): Promise<void> {
     if (!this.options.local) {
       return;
@@ -59,19 +68,32 @@ export class Backup {
     return new Promise((resolve) => {
       this.resolve = resolve;
       const duration = getDuration(this.options.intervalInSecond);
-      this.next = new Date(new Date().getTime() + duration);
+      this.next = DateTime.fromMillis(
+        DateTime.local().toMillis() + duration
+      ).toISO();
       timeout = setTimeout(this.resolve, duration);
     });
   }
 
   reschedule(newIntervalInSecond: number) {
-    if (timeout) {
-      clearTimeout(timeout);
+    try {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      const duration = getDuration(newIntervalInSecond);
+      this.next = DateTime.fromMillis(
+        DateTime.fromISO(this.last).toMillis() + duration
+      ).toISO();
+
+      const remaining = Math.max(
+        DateTime.fromISO(this.next).toMillis() - DateTime.local().toMillis(),
+        0
+      );
+      timeout = setTimeout(this.resolve, remaining);
+    } catch (error) {
+      console.log("error: ", error);
+      throw error;
     }
-    const duration = getDuration(newIntervalInSecond);
-    this.next = new Date(this.last.getTime() + duration);
-    const remaining = Math.max(this.next.getTime() - new Date().getTime(), 0);
-    timeout = setTimeout(this.resolve, remaining);
   }
 
   async backup(): Promise<void> {
@@ -106,12 +128,15 @@ export class Backup {
         this.broadcast(`${repos} is not a directory`);
         return;
       }
+
+      this.last = DateTime.local().toISO();
+      await this.gitUtils.convertToGitRepos(repos);
       process.chdir(repos);
-      this.last = new Date();
-      await convertToGitRepos(repos, path.resolve(this.options.remote));
       await this.cmd("git add -A .");
       await this.cmd("git commit -m backup");
-      await this.cmd(`"${this.options.sh}" -c "git push" `);
+      await this.cmd(
+        `"${this.options.sh}" -c "git push --set-upstream origin master" `
+      );
     } catch (error) {
       console.error("error: ", error);
     } finally {

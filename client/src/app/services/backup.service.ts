@@ -4,8 +4,11 @@ import { BehaviorSubject } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { WebSocketSubject } from 'rxjs/webSocket';
 
-import { BackupInfo } from '../interfaces/backup-info';
-import { BackupMessage, BackupOptions } from '../../../../src/interfaces';
+import {
+  BackupInfo,
+  BackupMessage,
+  BackupOptions,
+} from '../../../../src/interfaces';
 import { BACKUP, LOCAL, REMOTE } from '../../../../src/enum';
 
 @Injectable({

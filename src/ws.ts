@@ -13,7 +13,7 @@ export function ws(backup: Backup): Router {
         console.log("backup requested from client");
         await backup.backup();
         backup.reschedule(backup.options.intervalInSecond ?? 3600);
-        res.json(backup);
+        res.json(backup.getInfo());
       } catch (e) {
         res.status(400).json({ error: e });
       }
@@ -23,7 +23,7 @@ export function ws(backup: Backup): Router {
   app.get("/info", (req, res) => {
     console.log("info start");
     backup.check();
-    res.json(backup);
+    res.json(backup.getInfo());
   });
 
   app.put("/backup-options", (req, res) => {
@@ -33,7 +33,7 @@ export function ws(backup: Backup): Router {
         const bo = req.body as BackupOptions;
         await backup.update(bo);
         await backup.check();
-        res.json(backup);
+        res.json(backup.getInfo());
       } catch (e) {
         res.status(400).json({ error: e });
       }
