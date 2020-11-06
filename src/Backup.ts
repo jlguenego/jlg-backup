@@ -130,6 +130,7 @@ export class Backup {
   async check() {
     const check = new Check();
     this.localStatus = await check.localDir(this.options.local);
+    await check.gitUser();
   }
 
   broadcast(msg: string, backuping = false): void {

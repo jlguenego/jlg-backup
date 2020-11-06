@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 
 import { LOCAL } from "./enum";
+import { cmd } from "./misc";
 
 export class Check {
   async localDir(local: string | undefined): Promise<LOCAL> {
@@ -19,5 +20,18 @@ export class Check {
     }
 
     return LOCAL.OK;
+  }
+
+  async gitUser() {
+    const username = "Backuper";
+    const email = "please@enjoy-jlg-backup.com";
+    try {
+      await cmd("git config --global --get user.name");
+      await cmd("git config --global --get user.email");
+    } catch (error) {
+      console.log("error: ", error);
+      await cmd(`git config --global  user.name "${username}"`);
+      await cmd(`git config --global  user.email "${email}"`);
+    }
   }
 }
