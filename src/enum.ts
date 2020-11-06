@@ -1,6 +1,6 @@
 export enum REMOTE {
   INIT = "Init...",
-  NOT_SET = "Local not set.",
+  NOT_SET = "Remote not set.",
   NOT_EXISTING_DIR = "Local directory not existing.",
   OK = "Local directory set.",
 }
