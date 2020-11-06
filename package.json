@@ -1,6 +1,6 @@
 {
   "name": "jlg-backup",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "JLG Backup. Using git to make your backup.",
   "keywords": [
     "git",

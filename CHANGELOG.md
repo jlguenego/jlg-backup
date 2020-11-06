@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.8](https://github.com/jlguenego/jlg-backup/compare/v1.0.7...v1.0.8) (2020-11-06)
+
+
+### Bug Fixes
+
+* add git options ([124b2c7](https://github.com/jlguenego/jlg-backup/commit/124b2c7254db3c5964e9af2e7b80c67953c66bcb))
+
 ### [1.0.7](https://github.com/jlguenego/jlg-backup/compare/v1.0.6...v1.0.7) (2020-11-06)
 
 ### [1.0.6](https://github.com/jlguenego/jlg-backup/compare/v1.0.5...v1.0.6) (2020-11-06)
