@@ -1,5 +1,9 @@
 # JLG Backup
 
+<div style="background: white; padding: 1em; text-align: center">
+  <img src="./client/src/assets/logo.png" width="300" />
+</div>
+
 Regularely backup your things on an external hard drive.
 
 ## Requirements
