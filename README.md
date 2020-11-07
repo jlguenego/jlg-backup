@@ -1,6 +1,6 @@
 # JLG Backup
 
-<div style="background: white; padding: 1em; text-align: center">
+<div align="center">
   <img src="./client/src/assets/logo.png" width="300" />
 </div>
 
