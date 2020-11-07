@@ -70,12 +70,16 @@ export class BackupService {
         next: (backupInfo) => {
           this.backupStatus$.next({
             backuping: false,
+            total: this.backupStatus$.value.total,
+            processed: this.backupStatus$.value.processed,
           });
           this.backupInfo$.next(backupInfo);
         },
         error: (error) => {
           this.backupStatus$.next({
             backuping: false,
+            total: this.backupStatus$.value.total,
+            processed: this.backupStatus$.value.processed,
           });
           console.error('error: ', error);
         },

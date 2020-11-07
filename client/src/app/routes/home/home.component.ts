@@ -24,9 +24,15 @@ export class HomeComponent implements OnInit {
       this.backupInfo = backupInfo;
     });
     this.backupService.backupStatus$.subscribe((backupStatus) => {
-      this.backuping = backupStatus.backuping;
       this.total = backupStatus.total;
       this.processed = backupStatus.processed;
+      if (this.backuping === true && backupStatus.backuping === false) {
+        setTimeout(() => {
+          this.backuping = backupStatus.backuping;
+        }, 500);
+        return;
+      }
+      this.backuping = backupStatus.backuping;
     });
   }
 

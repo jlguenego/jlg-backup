@@ -58,8 +58,8 @@ export class Backup {
     }
     try {
       while (true) {
-        await this.backup();
         await this.wait();
+        await this.backup();
       }
     } catch (error) {
       console.error("error while starting: ", error);
@@ -125,8 +125,6 @@ export class Backup {
       this.backupStatus.backuping = false;
       process.chdir(cwd);
       this.broadcast(`END backup`);
-      this.backupStatus.processed = 0;
-      this.backupStatus.total = 0;
     }
   }
 

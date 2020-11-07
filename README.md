@@ -2,6 +2,7 @@
 
 ## TODO
 
+- saving on cloud
 - path type
 - directory containing repos
 - write readme
