@@ -1,4 +1,4 @@
-import { BACKUP, LOCAL, REMOTE } from "./enum";
+import { LOCAL, REMOTE } from "./enum";
 
 export interface BackupOptions {
   $schema: string;
@@ -11,7 +11,7 @@ export interface BackupOptions {
 }
 
 export interface BackupMessage {
-  backuping?: boolean;
+  backupStatus: BackupStatus;
   message: string;
 }
 
@@ -30,5 +30,11 @@ export interface BackupInfo {
   options: Partial<BackupOptions>;
   remoteStatus: REMOTE;
   localStatus: LOCAL;
-  backupStatus: BACKUP;
+  backupStatus: BackupStatus;
+}
+
+export interface BackupStatus {
+  backuping: boolean;
+  total?: number;
+  processed?: number;
 }

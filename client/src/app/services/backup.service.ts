@@ -8,8 +8,9 @@ import {
   BackupInfo,
   BackupMessage,
   BackupOptions,
+  BackupStatus,
 } from '../../../../src/interfaces';
-import { BACKUP, LOCAL, REMOTE } from '../../../../src/enum';
+import { LOCAL, REMOTE } from '../../../../src/enum';
 
 @Injectable({
   providedIn: 'root',
@@ -22,17 +23,21 @@ export class BackupService {
     options: {},
     remoteStatus: REMOTE.INIT,
     localStatus: LOCAL.INIT,
-    backupStatus: BACKUP.OK,
+    backupStatus: { backuping: false },
   });
 
-  backuping = false;
+  backupStatus$ = new BehaviorSubject<BackupStatus>({
+    backuping: false,
+  });
 
   constructor(private http: HttpClient) {
     this.refresh();
     this.socket$.subscribe(
       (bkpmsg) => {
         console.log('bkpmsg: ', bkpmsg);
-        this.backuping = bkpmsg.backuping;
+        if (bkpmsg.backupStatus) {
+          this.backupStatus$.next(bkpmsg.backupStatus);
+        }
       },
       (error) => {
         console.error('error: ', error);
@@ -53,17 +58,25 @@ export class BackupService {
   }
 
   backup(): void {
-    this.backuping = true;
+    this.backupStatus$.next({
+      backuping: true,
+      total: 0,
+      processed: 0,
+    });
     this.http
       .get<BackupInfo>('/ws/backup')
       .pipe(delay(0))
       .subscribe({
         next: (backupInfo) => {
-          this.backuping = false;
+          this.backupStatus$.next({
+            backuping: false,
+          });
           this.backupInfo$.next(backupInfo);
         },
         error: (error) => {
-          this.backuping = false;
+          this.backupStatus$.next({
+            backuping: false,
+          });
           console.error('error: ', error);
         },
       });

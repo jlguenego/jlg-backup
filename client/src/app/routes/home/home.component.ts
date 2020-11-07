@@ -15,9 +15,18 @@ export class HomeComponent implements OnInit {
   faRedo = faRedo;
   faSpinner = faSpinner;
 
+  backuping = false;
+  total = 0;
+  processed = 0;
+
   constructor(public backupService: BackupService) {
     this.backupService.backupInfo$.subscribe((backupInfo) => {
       this.backupInfo = backupInfo;
+    });
+    this.backupService.backupStatus$.subscribe((backupStatus) => {
+      this.backuping = backupStatus.backuping;
+      this.total = backupStatus.total;
+      this.processed = backupStatus.processed;
     });
   }
 

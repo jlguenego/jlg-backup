@@ -1,6 +1,6 @@
 import http from "http";
 import * as WebSocket from "ws";
-import { BackupMessage } from "./interfaces";
+import { BackupMessage, BackupStatus } from "./interfaces";
 
 export class BackupWebSocket {
   wss: WebSocket.Server;

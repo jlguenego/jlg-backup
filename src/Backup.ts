@@ -4,8 +4,8 @@ import os from "os";
 import { DateTime } from "luxon";
 
 import { cmd, cwd, log, now } from "./misc";
-import { BackupInfo, BackupOptions } from "./interfaces";
-import { BACKUP, LOCAL, REMOTE } from "./enum";
+import { BackupInfo, BackupOptions, BackupStatus } from "./interfaces";
+import { LOCAL, REMOTE } from "./enum";
 import { Check } from "./Check";
 import { BackupWebSocket } from "./BackupWebSocket";
 import { GitUtils } from "./GitUtils";
@@ -35,7 +35,9 @@ export class Backup {
 
   remoteStatus = REMOTE.NOT_SET;
   localStatus = LOCAL.NOT_SET;
-  backupStatus = BACKUP.OK;
+  backupStatus: BackupStatus = {
+    backuping: false,
+  };
   resolve = () => {};
 
   constructor(opts: Partial<BackupOptions> = {}) {
@@ -97,26 +99,34 @@ export class Backup {
   }
 
   async backup(): Promise<void> {
-    this.broadcast(`START backup`, true);
-    if (!this.options.local) {
-      return;
-    }
-    const local = this.options.local;
     try {
-      const entries = await fs.promises.readdir(
-        path.resolve(this.options.local)
-      );
-      for (const entry of entries) {
-        await this.backupRepos(path.resolve(local, entry));
+      this.backupStatus.backuping = true;
+      this.broadcast(`START backup`);
+      if (!this.options.local) {
+        throw new Error("local directory not set");
       }
-    } catch (error) {}
 
-    try {
+      const local = this.options.local;
+      try {
+        const entries = await fs.promises.readdir(
+          path.resolve(this.options.local)
+        );
+        this.backupStatus.total = entries.length;
+        for (let i = 0; i < entries.length; i++) {
+          const entry = entries[i];
+          this.backupStatus.processed = i;
+          await this.backupRepos(path.resolve(local, entry));
+          this.backupStatus.processed = i + 1;
+        }
+      } catch (error) {}
     } catch (error) {
-      this.broadcast("backup error: ", error);
+      this.broadcast(`error: ${error}`);
     } finally {
+      this.backupStatus.backuping = false;
       process.chdir(cwd);
-      this.broadcast(`END backup`, false);
+      this.broadcast(`END backup`);
+      this.backupStatus.processed = 0;
+      this.backupStatus.total = 0;
     }
   }
 
@@ -167,17 +177,17 @@ export class Backup {
     await check.gitUser();
   }
 
-  broadcast(msg: string, backuping = false): void {
-    this.backupWs?.broadcast({ message: msg, backuping });
+  broadcast(msg: string): void {
+    this.backupWs?.broadcast({ message: msg, backupStatus: this.backupStatus });
     log(msg);
   }
 
   async cmd(command: string): Promise<void> {
     try {
-      this.broadcast(`START ${command}`, true);
+      this.broadcast(`START ${command}`);
       await cmd(command);
     } catch (error) {
-      this.broadcast(`ERROR while doing: ${command} - ${error}`, true);
+      this.broadcast(`ERROR while doing: ${command} - ${error}`);
     }
   }
 }

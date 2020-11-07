@@ -6,9 +6,6 @@
 - directory containing repos
 - write readme
 - async button
-- websocket for status:
-  - sleeping
-  - backuping
 - when doing backup poll every 10 second to check the status.
 - testing a npm
 

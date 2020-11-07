@@ -17,20 +17,16 @@
       <br />
     </div>
     <div class="item">
-      <button
-        [disabled]="backupService.backuping"
-        class="primary backup"
-        (click)="backup()"
-      >
-        <span *ngIf="!backupService.backuping">Backup now!</span>
-        <ng-container *ngIf="backupService.backuping">
+      <button [disabled]="backuping" class="primary backup" (click)="backup()">
+        <span *ngIf="!backuping">Backup now!</span>
+        <ng-container *ngIf="backuping">
           <span> Backuping </span>
           <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
         </ng-container>
       </button>
-      <div>
-        <b>Last status:</b>
-        <span> {{ backupInfo.backupStatus }}</span>
+      <div *ngIf="backuping">
+        <b>Status:</b>
+        <span> {{ processed }} / {{ total }}</span>
       </div>
     </div>
   </div>
