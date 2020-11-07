@@ -99,6 +99,9 @@ Anyone that needs running periodically backup, open source and free.
 - path type
 - unit/e2e test in angular project.
 - beautiful service name
+- licence
+- keyword
+- logo
 
 ## Contributors are welcome!
 

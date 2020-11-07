@@ -16,6 +16,8 @@ import { LOCAL, REMOTE } from '../../../../../src/enum';
   styleUrls: ['./options-form.component.scss'],
 })
 export class OptionsFormComponent implements OnInit {
+  doc =
+    'https://github.com/jlguenego/jlg-backup/blob/master/README.md#configuration';
   faExclamationTriangle = faExclamationTriangle;
   faCheck = faCheck;
   faQuestionCircle = faQuestionCircle;
