@@ -37,7 +37,9 @@ You need to configure the following:
 
 Make sure both the _backup directory_ and _project directory_ exist.
 
-## Add data to backup
+## Usage
+
+### Add data to backup
 
 Start creating a directory under the _project directory_:
 
@@ -50,13 +52,13 @@ mkdir my_first_project
 
 Add some files inside `my_first_project`.
 
-## Backup now!
+### Backup now!
 
 Then on the JLG Backup interface (`http://localhost:55555`) just click the button **Backup now!**
 
 You can also wait for the interval in second... it will backup automatically.
 
-## What the backup is technically doing?
+### What the backup is technically doing?
 
 1. The directory `C:\all-my-projects\my_first_project` is transformed in a local git repository A.
 2. The backup create a remote git repository B just under the _backup directory_ (`E:\all-my-backups\my_first_project`). If the remote repository was already existing, it is cloned into A.
@@ -66,14 +68,14 @@ In fact, every time a backup will be performed, each directory directly located 
 
 Reciprocally, if a remote git repository B already exists under the _backup directory_, it will be cloned with git if an empty directory with the same name is under the _project directory_.
 
-## Remove the project
+### Remove the project
 
 ```
 cd /d C:\all-my-projects
 rmdir /q /s my_first_project
 ```
 
-## Getting a backup
+### Retrieving a backup
 
 ```
 cd /d C:\all-my-projects
