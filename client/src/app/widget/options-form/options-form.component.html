@@ -1,6 +1,8 @@
 <form [formGroup]="f" (ngSubmit)="submit()">
   <label>
-    <div title="This directory which contains all backup git repositories.">
+    <div
+      title="This directory which contains all backup git repositories. (ex: an external drive directory)"
+    >
       <a
         href="https://github.com/jlguenego/jlg-backup/blob/master/README.md"
         target="_blank"
@@ -24,7 +26,9 @@
     </div>
   </label>
   <label>
-    <div title="This directory which contains all local repositories.">
+    <div
+      title="This directory which contains all local repositories. (ex: somewhere on your laptop hardrive)"
+    >
       <a
         href="https://github.com/jlguenego/jlg-backup/blob/master/README.md"
         target="_blank"
@@ -48,13 +52,17 @@
     </div>
   </label>
   <label>
-    <div>Backup time interval (seconds)</div>
+    <div
+      title="JLG Backup will start backup after every interval. (ex: 3600 for backuping every hours)"
+    >
+      Backup time interval (seconds)
+    </div>
     <input type="number" formControlName="intervalInSecond" min="0" step="1" />
   </label>
   <nav>
     <button type="button" (click)="reset()">Reset</button>
     <button class="primary" type="submit" [disabled]="f.invalid">
-      Update Local repos
+      Update Config
     </button>
   </nav>
 </form>

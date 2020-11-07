@@ -17,7 +17,11 @@
       <br />
     </div>
     <div class="item">
-      <button [disabled]="backuping" class="primary backup" (click)="backup()">
+      <button
+        [disabled]="backuping || !goodConfig"
+        class="primary backup"
+        (click)="backup()"
+      >
         <span *ngIf="!backuping">Backup now!</span>
         <ng-container *ngIf="backuping">
           <span> Backuping </span>

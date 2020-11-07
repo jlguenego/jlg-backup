@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { faRedo, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import { BackupService } from 'src/app/services/backup.service';
+import { LOCAL, REMOTE } from '../../../../../src/enum';
 import { BackupInfo } from '../../../../../src/interfaces';
 
 @Component({
@@ -16,12 +17,17 @@ export class HomeComponent implements OnInit {
   faSpinner = faSpinner;
 
   backuping = false;
+  goodConfig = false;
+
   total = 0;
   processed = 0;
 
   constructor(public backupService: BackupService) {
     this.backupService.backupInfo$.subscribe((backupInfo) => {
       this.backupInfo = backupInfo;
+      this.goodConfig =
+        backupInfo.localStatus === LOCAL.OK &&
+        backupInfo.remoteStatus === REMOTE.OK;
     });
     this.backupService.backupStatus$.subscribe((backupStatus) => {
       this.total = backupStatus.total;
