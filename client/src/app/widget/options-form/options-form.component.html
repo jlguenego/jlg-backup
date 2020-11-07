@@ -1,6 +1,13 @@
 <form [formGroup]="f" (ngSubmit)="submit()">
   <label>
-    <div>Directory containing remote repos</div>
+    <div title="This directory which contains all backup git repositories.">
+      <a
+        href="https://github.com/jlguenego/jlg-backup/blob/master/README.md"
+        target="_blank"
+        ><fa-icon [icon]="faQuestionCircle"></fa-icon
+      ></a>
+      <span>Backup directory</span>
+    </div>
     <input
       [class.error]="!isRemoteStatusOK()"
       type="text"
@@ -17,7 +24,14 @@
     </div>
   </label>
   <label>
-    <div>Directory containing local repos</div>
+    <div title="This directory which contains all local repositories.">
+      <a
+        href="https://github.com/jlguenego/jlg-backup/blob/master/README.md"
+        target="_blank"
+        ><fa-icon [icon]="faQuestionCircle"></fa-icon
+      ></a>
+      <span>Project directory</span>
+    </div>
     <input
       [class.error]="!isLocalStatusOK()"
       type="text"

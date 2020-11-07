@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   faExclamationTriangle,
   faCheck,
+  faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { BackupService } from 'src/app/services/backup.service';
@@ -17,6 +18,7 @@ import { LOCAL, REMOTE } from '../../../../../src/enum';
 export class OptionsFormComponent implements OnInit {
   faExclamationTriangle = faExclamationTriangle;
   faCheck = faCheck;
+  faQuestionCircle = faQuestionCircle;
 
   f = new FormGroup({
     remote: new FormControl(''),
