@@ -4,6 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { WebSocketSubject } from 'rxjs/webSocket';
 
+const host = window.location.host;
+
 import {
   BackupInfo,
   BackupMessage,
@@ -16,7 +18,9 @@ import { LOCAL, REMOTE } from '../../../../src/enum';
   providedIn: 'root',
 })
 export class BackupService {
-  private socket$ = new WebSocketSubject<BackupMessage>('ws://localhost:55555');
+  private socket$ = new WebSocketSubject<BackupMessage>(
+    `ws://${host}/websocket`
+  );
   backupInfo$ = new BehaviorSubject<BackupInfo>({
     last: '1970-01-01',
     next: '1970-01-01',

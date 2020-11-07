@@ -2,5 +2,10 @@
   "/ws": {
     "target": "http://localhost:55555",
     "secure": false
+  },
+  "/websocket": {
+    "target": "http://localhost:55555",
+    "secure": false,
+    "ws": true
   }
 }
