@@ -104,6 +104,7 @@ Anyone that needs running periodically backup, open source and free.
 - licence
 - keyword
 - logo
+- input directory (ergo)
 
 ## Contributors are welcome!
 
