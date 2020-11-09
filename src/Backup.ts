@@ -4,13 +4,21 @@ import os from "os";
 import { DateTime } from "luxon";
 
 import { cmd, cwd, log, now } from "./misc";
-import { BackupInfo, BackupOptions, BackupStatus } from "./interfaces";
+import {
+  BackupInfo,
+  BackupOptions,
+  BackupStatus,
+  filePath,
+} from "./interfaces";
 import { LOCAL, REMOTE } from "./enum";
 import { Check } from "./Check";
 import { BackupWebSocket } from "./BackupWebSocket";
 import { GitUtils } from "./GitUtils";
 
-export const USER_CONFIG_FILE = path.resolve(os.homedir(), "jlg-backup.json");
+export const USER_CONFIG_FILE: filePath = path.resolve(
+  os.homedir(),
+  "jlg-backup.json"
+);
 
 const getDuration = (intervalInSecond: number | undefined) =>
   (intervalInSecond ?? 3600) * 1000;

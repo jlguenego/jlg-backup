@@ -1,12 +1,15 @@
 import { LOCAL, REMOTE } from "./enum";
 
+export type dirPath = string;
+export type filePath = string;
+
 export interface BackupOptions {
   $schema: string;
   port: number;
-  local: string;
-  remote: string;
+  local: dirPath;
+  remote: dirPath;
   intervalInSecond: number;
-  sh: string;
+  sh: filePath;
   git: GitOptions;
 }
 
