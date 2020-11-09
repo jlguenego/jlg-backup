@@ -105,7 +105,6 @@ Anyone that needs running periodically backup, open source and free.
 - path type
 - unit/e2e test in angular project.
 - keyword
-- logo
 - input directory (ergo)
 
 ## Contributors are welcome!
