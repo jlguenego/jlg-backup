@@ -6,8 +6,9 @@ const yargs = require("yargs");
 
 // Create a new service object
 const svc = new Service({
-  name: "JLG Node application as Windows Service",
-  description: "JLG Description of Node application as Windows Service",
+  name: "JLG Backup",
+  description:
+    "Periodically backup your data. See https://github.com/jlguenego/jlg-backup.",
   script: path.resolve(__dirname, "../dist/index.js"),
 });
 
