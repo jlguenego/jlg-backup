@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.10](https://github.com/jlguenego/jlg-backup/compare/v1.0.9...v1.0.10) (2020-11-30)
+
+
+### Bug Fixes
+
+* add a ISC license file ([3d7fd8c](https://github.com/jlguenego/jlg-backup/commit/3d7fd8c7f01cda319cda41b063e8779a88133eb3))
+* added config for websocket ([eb41781](https://github.com/jlguenego/jlg-backup/commit/eb41781d84b81f9df4385a4dcb9dad5151d6dbe9))
+* do not backup if status are no ok ([a7e9628](https://github.com/jlguenego/jlg-backup/commit/a7e962893890d195c269f3489751443773eea5ea))
+* doc url ([2828d14](https://github.com/jlguenego/jlg-backup/commit/2828d148373c8d6930e08ad92e73debe2f8a9083))
+* legal page ([40dd5b7](https://github.com/jlguenego/jlg-backup/commit/40dd5b77228a59feced731b844276eaec62b9733))
+* readme ([00e9188](https://github.com/jlguenego/jlg-backup/commit/00e91889737ed95f658de57f3f945eadec974a33))
+* update service description ([01a1ef9](https://github.com/jlguenego/jlg-backup/commit/01a1ef9f6e191521a7c50624a52c35f566a6a9fa))
+
 ### [1.0.9](https://github.com/jlguenego/jlg-backup/compare/v1.0.8...v1.0.9) (2020-11-07)
 
 
